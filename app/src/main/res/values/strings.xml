@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Yummy</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="order_delicious_food_from_the_best_delivery_n_brand">Order delicious food from the best delivery <br>brand</br></string>
+    <string name="good_food_only">Good food only</string>
+    <string name="snacks_and_drinks">Snacks, drinks &amp; essentials</string>
+    <string name="need_it_now">Need it now? No worries. Shop from a \n
+    section of everyday products delivered.</string>
+    <string name="get_everything_only">Get everything in 1 order!</string>
+    <string name="order_from">Order from different restaurants &amp; shops and \nhave everything delivered in a single order!</string>
 </resources>
