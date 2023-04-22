@@ -9,4 +9,6 @@
     section of everyday products delivered.</string>
     <string name="get_everything_only">Get everything in 1 order!</string>
     <string name="order_from">Order from different restaurants &amp; shops and \nhave everything delivered in a single order!</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
 </resources>
