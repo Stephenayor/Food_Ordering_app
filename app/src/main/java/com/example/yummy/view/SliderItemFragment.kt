@@ -1,6 +1,10 @@
 package com.example.yummy.view
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +12,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.yummy.R
 
 
@@ -51,6 +57,25 @@ class SliderItemFragment : Fragment() {
         subtitleText.setText(PAGE_TEXT[position!!]);
 
         imageView.setImageResource(PAGE_IMAGE[position!!]);
+
+        when(position){
+            0 ->  imageView.setBackgroundResource(R.drawable.circle_background)
+
+            1 -> {
+                imageView.setBackgroundResource(R.drawable.circle_background)
+                val originalBitmap = BitmapFactory.decodeResource(resources, R.drawable.food)
+                val newWidth = 150
+                val newHeight = 150
+
+                val resizedBitmap =
+                    Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, false)
+                imageView.setImageBitmap(resizedBitmap)
+            }
+
+            2 -> {
+                imageView.setBackgroundResource(R.drawable.circle_background_design_secondary)
+            }
+        }
     }
 
 
@@ -70,18 +95,10 @@ class SliderItemFragment : Fragment() {
     // prepare all subtitle images arrays
     @StringRes
     private val PAGE_IMAGE = intArrayOf(
-        R.drawable.burger, R.drawable.burger, R.drawable.burger
+        R.drawable.burger, 0, R.drawable.grocery_cart
     )
 
 
 
-//    companion object {
-//        fun newInstance(position: Int): SliderItemFragment {
-//            val fragment = SliderItemFragment()
-//            val args = Bundle()
-//            args.putInt("slider-position", position)
-//            fragment.arguments = args
-//            return fragment
-//        }
-//    }
+
 }

@@ -3,11 +3,15 @@ package com.example.yummy.view
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.yummy.R
@@ -21,6 +25,7 @@ class IntroSliderActivity : AppCompatActivity() {
     private lateinit var sliderPagerAdapter: SliderPagerAdapter
     private lateinit var tabLayout: TabLayout
     private lateinit var binding: ActivityIntroSliderBinding
+    private var runnable: Runnable? = null
 
     lateinit var indicatorSlideOneTV: TextView
     lateinit var indicatorSlideTwoTV: TextView
@@ -45,7 +50,6 @@ class IntroSliderActivity : AppCompatActivity() {
         )
 
         viewPager.adapter = sliderPagerAdapter
-//        tabLayout.setupWithViewPager(viewPager)
 
 
         /**
@@ -63,31 +67,53 @@ class IntroSliderActivity : AppCompatActivity() {
                 positionOffsetPixels: Int
             ) {
             }
+
             override fun onPageSelected(position: Int) {
-                if (position == -1)
-                    indicatorSlideTwoTV.setTextColor(resources.getColor(R.color.grey))
-                    indicatorSlideThreeTV.setTextColor(resources.getColor(R.color.grey))
-                    indicatorSlideOneTV.setTextColor(resources.getColor(R.color.purple_700))
 
-                if (position == 0) {
-                    indicatorSlideTwoTV.setTextColor(resources.getColor(R.color.grey))
-                    indicatorSlideThreeTV.setTextColor(resources.getColor(R.color.grey))
-                    indicatorSlideOneTV.setTextColor(resources.getColor(R.color.purple_700))
+                when (position) {
+                    -1, 0 -> {
+                        indicatorSlideTwoTV.setTextColor(resources.getColor(R.color.grey))
+                        indicatorSlideThreeTV.setTextColor(resources.getColor(R.color.grey))
+                        indicatorSlideOneTV.setTextColor(resources.getColor(R.color.purple_700))
+                    }
 
-                } else if (position == 1) {
-                    indicatorSlideTwoTV.setTextColor(resources.getColor(R.color.purple_700))
-                    indicatorSlideThreeTV.setTextColor(resources.getColor(R.color.grey))
-                    indicatorSlideOneTV.setTextColor(resources.getColor(R.color.grey))
-                } else {
-                    indicatorSlideTwoTV.setTextColor(resources.getColor(R.color.grey))
-                    indicatorSlideThreeTV.setTextColor(resources.getColor(R.color.purple_700))
-                    indicatorSlideOneTV.setTextColor(resources.getColor(R.color.grey))
+                    1 -> {
+                        indicatorSlideTwoTV.setTextColor(resources.getColor(R.color.purple_700))
+                        indicatorSlideThreeTV.setTextColor(resources.getColor(R.color.grey))
+                        indicatorSlideOneTV.setTextColor(resources.getColor(R.color.grey))
+                    }
+
+                    else -> {
+                        indicatorSlideTwoTV.setTextColor(resources.getColor(R.color.grey))
+                        indicatorSlideThreeTV.setTextColor(resources.getColor(R.color.purple_700))
+                        indicatorSlideOneTV.setTextColor(resources.getColor(R.color.grey))
+                    }
                 }
+
             }
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
 
+        startAutoSlider(3).observe(this) { pos ->
+            viewPager.currentItem = pos
+        }
+
+    }
+
+    private fun startAutoSlider(count: Int): LiveData<Int> {
+        val resultLiveData = MutableLiveData<Int>()
+        val handler = Handler(Looper.getMainLooper())
+        runnable = Runnable {
+            var pos: Int = viewPager.currentItem
+            pos += 1
+            if (pos >= count) pos = 0
+            viewPager.currentItem = pos
+            resultLiveData.value = pos
+            handler.postDelayed(runnable!!, 3000)
+        }
+        handler.postDelayed(runnable!!, 3000)
+        return resultLiveData
     }
 
     private fun changeStatusBarColor() {
