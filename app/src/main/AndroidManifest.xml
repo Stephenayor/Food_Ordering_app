@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Yummy"
         tools:targetApi="31">
         <activity
+            android:name=".view.OnboardingActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.IntroSliderActivity"
             android:exported="false" />
         <activity

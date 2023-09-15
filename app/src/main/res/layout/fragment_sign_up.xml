@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <RelativeLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <ScrollView
+            android:id="@+id/sv_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/bg_image"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/password_sign_up_pattern_right" />
+
+
+                <TextView
+                    android:id="@+id/tv_sign_up"
+                    style="@style/onBoardingTextTitle"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_below="@id/bg_image"
+                    android:text="@string/title_sign_up" />
+
+
+
+
+                <co.ceryle.radiorealbutton.RadioRealButtonGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:rrbg_animateDrawables_enter="overshoot"
+                    app:rrbg_animateTexts_enter="overshoot"
+                    app:rrbg_dividerColor="@color/black"
+                    app:rrbg_dividerSize="1dp"
+                    app:rrbg_radius="10dp"
+                    app:rrbg_selectorColor="@color/grey"
+                    app:rrbg_selectorSize="6dp">
+
+                    <co.ceryle.radiorealbutton.RadioRealButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:rrb_drawable="@mipmap/ic_launcher"
+                        app:rrb_drawableHeight="36dp"
+                        app:rrb_drawablePadding="8dp"
+                        app:rrb_drawableWidth="36dp"
+                        app:rrb_ripple="true"
+                        app:rrb_rippleColor="@color/black"
+                        app:rrb_text="Button 1"
+                        app:rrb_textColor="@color/black"/>
+
+                    <co.ceryle.radiorealbutton.RadioRealButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:rrb_drawable="@mipmap/ic_launcher"
+                        app:rrb_drawableGravity="right"
+                        app:rrb_drawableHeight="36dp"
+                        app:rrb_drawablePadding="8dp"
+                        app:rrb_drawableWidth="36dp"
+                        app:rrb_ripple="true"
+                        app:rrb_rippleColor="@color/black"
+                        app:rrb_text="Button 2"
+                        app:rrb_textColor="@color/black"/>
+                </co.ceryle.radiorealbutton.RadioRealButtonGroup>
+
+                <RelativeLayout
+                    android:id="@+id/sign_up_field_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_username"
+                        style="@style/editText"
+                        android:layout_marginTop="24dp"
+                        android:hint="@string/hint_username"
+                        android:inputType="textPersonName"
+                        app:drawableLeftCompat="@drawable/ic_person_gray_24dp" />
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                       android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_below="@id/et_username"
+                        android:hint="@string/hintpassword"
+                        app:passwordToggleTint="@color/medium_gray"
+                        android:drawableStart="@drawable/ic_password_lock"
+                        android:id="@+id/sign_up_password"
+                        android:layout_marginTop="25dp"
+                        android:scrollbarSize="25dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                       style="@style/editText"
+                        android:inputType="textPassword"
+                        android:ems="15"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <CheckBox
+                        android:id="@+id/admin_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@id/sign_up_password"
+                        android:buttonTint="@color/purple_new"
+                        android:layout_marginTop="25dp"
+                        android:padding="5dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/grey"
+                        android:text="@string/sign_up_as_an_admin"/>
+
+                    <TextView
+                        android:id="@+id/sign_up_personal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/admin_checkbox"
+                        android:layout_below="@id/sign_up_password"
+                        android:layout_marginStart="55dp"
+                        android:layout_marginTop="25dp"
+                        android:paddingEnd="15dp"
+                        android:layout_alignBaseline="@id/admin_checkbox"
+                        android:textSize="15sp"
+                        android:textColor="@color/grey"
+                        android:text="Sign up Personal"
+                        />
+
+                    <CheckBox
+                        android:id="@+id/personal_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/sign_up_personal"
+                        android:layout_below="@id/sign_up_password"
+                        android:buttonTint="@color/purple_new"
+                        android:layout_marginTop="25dp"
+                        android:textSize="15sp"/>
+
+
+                    <Button
+                        android:id="@+id/btn_login"
+                        style="@style/newButton"
+                        android:layout_below="@id/personal_checkbox"
+                        android:layout_marginTop="70dp"
+                        android:enabled="true"
+                        android:text="Sign up" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+</layout>

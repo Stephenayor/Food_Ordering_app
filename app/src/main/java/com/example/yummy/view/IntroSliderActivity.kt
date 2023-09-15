@@ -12,38 +12,34 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavController
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.yummy.R
 import com.example.yummy.databinding.ActivityIntroSliderBinding
 
-import com.google.android.material.tabs.TabLayout
-
 
 class IntroSliderActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager
     private lateinit var sliderPagerAdapter: SliderPagerAdapter
-    private lateinit var tabLayout: TabLayout
     private lateinit var binding: ActivityIntroSliderBinding
     private var runnable: Runnable? = null
-
+    private lateinit var navController: NavController
     lateinit var indicatorSlideOneTV: TextView
     lateinit var indicatorSlideTwoTV: TextView
     lateinit var indicatorSlideThreeTV: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityIntroSliderBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         indicatorSlideOneTV = binding.idTVSlideOne
         indicatorSlideTwoTV = binding.idTVSlideTwo
         indicatorSlideThreeTV = binding.idTVSlideThree
 
         supportActionBar?.hide()
         viewPager = findViewById(R.id.pagerIntroSlider)
-//        tabLayout = findViewById(R.id.tabs)
-
         sliderPagerAdapter = SliderPagerAdapter(
             supportFragmentManager,
             FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
@@ -98,7 +94,13 @@ class IntroSliderActivity : AppCompatActivity() {
         startAutoSlider(3).observe(this) { pos ->
             viewPager.currentItem = pos
         }
+        setupClickListeners()
+    }
 
+    private fun setupClickListeners()  {
+        binding.btnSignUp.setOnClickListener {
+            OnboardingActivity.start(this)
+        }
     }
 
     private fun startAutoSlider(count: Int): LiveData<Int> {

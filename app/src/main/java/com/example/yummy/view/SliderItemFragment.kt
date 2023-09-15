@@ -1,5 +1,6 @@
 package com.example.yummy.view
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -12,19 +13,29 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.viewpager.widget.ViewPager
 import com.example.yummy.R
+import com.example.yummy.databinding.ActivityIntroSliderBinding
+import com.example.yummy.databinding.FragmentSliderItemBinding
+import com.google.android.material.tabs.TabLayout
 
 
 class SliderItemFragment : Fragment() {
-
     val ARG_POSITION = "slider-position"
     private var position: Int? = null
+    private lateinit var binding: FragmentSliderItemBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null){
+        if (arguments != null) {
             position = requireArguments().getInt(ARG_POSITION);
         }
     }
@@ -37,29 +48,44 @@ class SliderItemFragment : Fragment() {
         return fragment
     }
 
+    fun navigate() {
+        val action = SliderItemFragmentDirections.actionSliderItemFragmentToSignUpFragment4()
+        findNavController().navigate(action)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_slider_item, container, false)
+        binding = FragmentSliderItemBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val titleText: TextView = binding.introMainText
+        val subtitleText: TextView = binding.introSubText
+        val imageView: ImageView = view.findViewById(R.id.imageView);
 
-        var titleText: TextView = view.findViewById(R.id.intro_main_text);
-        var subtitleText: TextView = view.findViewById(R.id.intro_sub_text);
-        var imageView: ImageView = view.findViewById(R.id.imageView);
+
+
         // set page title
-        titleText.setText(PAGE_TITLES[position!!]);
+//        binding.introMainText.setText(PAGE_TITLES[position])
+//
+//        subtitleText.setText(PAGE_TEXT[position!!]);
 
-        subtitleText.setText(PAGE_TEXT[position!!]);
+        //        imageView.setImageResource(PAGE_IMAGE[0]);
 
-        imageView.setImageResource(PAGE_IMAGE[position!!]);
 
-        when(position){
-            0 ->  imageView.setBackgroundResource(R.drawable.circle_background)
+        setupSliderItemsTitle(titleText)
+
+        setupSliderImages(imageView, PAGE_IMAGE)
+
+        setupSliderSubText(subtitleText)
+
+        when (position) {
+            0 -> imageView.setBackgroundResource(R.drawable.circle_background)
 
             1 -> {
                 imageView.setBackgroundResource(R.drawable.circle_background)
@@ -76,29 +102,77 @@ class SliderItemFragment : Fragment() {
                 imageView.setBackgroundResource(R.drawable.circle_background_design_secondary)
             }
         }
+
+
+        binding.testSignUp.setOnClickListener {
+            val action = SliderItemFragmentDirections.actionSliderItemFragmentToSignUpFragment4()
+            findNavController().navigate(action)
+        }
+    }
+
+
+
+    private fun setupSliderSubText(subtitleText: TextView) {
+        when (position) {
+            0 -> subtitleText.setText(PAGE_TEXT[position!!])
+
+            1 -> {
+                subtitleText.setText(PAGE_TEXT[position!!])
+            }
+
+            2 -> {
+                subtitleText.setText(PAGE_TEXT[position!!])
+            }
+        }
+    }
+
+    private fun setupSliderImages(imageView: ImageView, PAGE_IMAGE: IntArray) {
+        when (position) {
+            0 -> imageView.setImageResource(PAGE_IMAGE[position!!])
+
+            1 -> {
+
+            }
+
+            2 -> {
+                imageView.setImageResource(PAGE_IMAGE[position!!])
+            }
+        }
+    }
+
+    private fun setupSliderItemsTitle(titleText: TextView) {
+        when (position) {
+            0 -> titleText.setText(R.string.good_food_only)
+
+            1 -> titleText.setText(R.string.snacks_and_drinks)
+
+            2 -> titleText.setText(R.string.get_everything_only)
+        }
     }
 
 
     // prepare all title ids arrays
     @StringRes
     private val PAGE_TITLES =
-        intArrayOf(R.string.good_food_only, R.string.snacks_and_drinks,
-            R.string.get_everything_only)
+        intArrayOf(
+            R.string.good_food_only, R.string.snacks_and_drinks,
+            R.string.get_everything_only
+        )
 
     // prepare all subtitle ids arrays
     @StringRes
     private val PAGE_TEXT = intArrayOf(
-       R.string.order_delicious_food_from_the_best_delivery_n_brand,
+        R.string.order_delicious_food_from_the_best_delivery_n_brand,
         R.string.need_it_now, R.string.order_from
     )
 
     // prepare all subtitle images arrays
     @StringRes
-    private val PAGE_IMAGE = intArrayOf(
+    val PAGE_IMAGE = intArrayOf(
         R.drawable.burger, 0, R.drawable.grocery_cart
     )
 
+    companion object{
 
-
-
+    }
 }

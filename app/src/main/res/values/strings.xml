@@ -11,4 +11,9 @@
     <string name="order_from">Order from different restaurants &amp; shops and \nhave everything delivered in a single order!</string>
     <string name="login">Login</string>
     <string name="sign_up">Sign up</string>
+    <string name="title_sign_up">Sign up</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="hintpassword">Password</string>
+    <string name="sign_up_as_an_admin">Sign up as an Admin</string>
 </resources>
