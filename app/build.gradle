@@ -58,4 +58,7 @@ dependencies {
     //RadioRealButton
     implementation 'com.github.patgdut:RadioRealButton:v2.1.2'
 
+    //Password Edittext
+    implementation "com.maksim88:PasswordEditText:v0.9"
+
 }

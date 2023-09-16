@@ -21,6 +21,10 @@
     <color name="lending_purple">#5C2682</color>
     <color name="disabled_purple">#E46D537D</color>
     <color name="purple_disabled">#9522DC</color>
+    <color name="app_default_purple">#6200EE</color>
+
+    <color name="yellow">#FFB717</color>>
+    <color name="disabled_yellow">#AE8D43</color>
 
 
 </resources>

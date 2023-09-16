@@ -50,15 +50,6 @@
         app:layout_constraintTop_toBottomOf="@+id/intro_main_text"
         />
 
-    <Button
-        android:id="@+id/test_sign_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/intro_sub_text"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="invisible"
-        android:text="test"/>
-
 
 
 

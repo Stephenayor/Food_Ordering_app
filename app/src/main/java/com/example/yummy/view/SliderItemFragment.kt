@@ -104,10 +104,6 @@ class SliderItemFragment : Fragment() {
         }
 
 
-        binding.testSignUp.setOnClickListener {
-            val action = SliderItemFragmentDirections.actionSliderItemFragmentToSignUpFragment4()
-            findNavController().navigate(action)
-        }
     }
 
 
