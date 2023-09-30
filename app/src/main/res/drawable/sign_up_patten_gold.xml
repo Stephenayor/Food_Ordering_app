@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap android:src="@drawable/password_sign_up_pattern_right" android:tint="@color/colorGoldenYellow"/>
+    </item>
+</selector>

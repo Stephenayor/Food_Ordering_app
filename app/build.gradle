@@ -61,4 +61,8 @@ dependencies {
     //Password Edittext
     implementation "com.maksim88:PasswordEditText:v0.9"
 
+    //Animations
+    implementation 'com.daimajia.androidanimations:library:2.4@aar'
+
+
 }
