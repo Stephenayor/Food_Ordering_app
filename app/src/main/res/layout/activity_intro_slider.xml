@@ -30,14 +30,16 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/slider_main_text"
-            app:layout_constraintVertical_bias="1.0"></androidx.viewpager.widget.ViewPager>
+            app:layout_constraintVertical_bias="1.0">
+
+        </androidx.viewpager.widget.ViewPager>
 
 
         <LinearLayout
             android:id="@+id/dots_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="180dp"
+            android:layout_marginBottom="160dp"
             android:background="@android:color/transparent"
             android:orientation="horizontal"
             android:weightSum="5"

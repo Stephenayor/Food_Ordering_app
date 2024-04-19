@@ -6,19 +6,18 @@
     <ScrollView
         android:id="@+id/sv_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/first_rl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
 
             <RelativeLayout
                 android:id="@+id/view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
 
                 <ImageView
@@ -146,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/confirm_sign_up_password"
                         android:layout_alignBaseline="@id/admin_checkbox"
-                        android:layout_marginStart="50dp"
+                        android:layout_marginStart="25dp"
                         android:layout_marginTop="25dp"
                         android:layout_toEndOf="@id/admin_checkbox"
                         android:text="Sign up Personal"
@@ -162,9 +161,10 @@
                         android:layout_alignEnd="@id/sign_up_password"
                         android:layout_marginTop="25dp"
                         android:layout_marginStart="@dimen/padding_10"
-                        android:layout_toRightOf="@id/sign_up_personal"
+                        android:layout_toEndOf="@id/sign_up_personal"
                         android:buttonTint="@color/black"
                         android:visibility="invisible"
+                        tools:visibility="visible"
                         android:textSize="15sp" />
 
                 </RelativeLayout>
@@ -173,8 +173,9 @@
                     android:id="@+id/btn_sign_up"
                     style="@style/newButton_v2"
                     android:layout_below="@id/sign_up_field_rl"
+                    android:layout_marginTop="59dp"
+                    android:layout_marginBottom="0dp"
                     android:enabled="false"
-                    android:layout_marginBottom="20dp"
                     android:text="Sign up" />
 
             </RelativeLayout>
