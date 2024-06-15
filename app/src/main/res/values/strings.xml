@@ -16,4 +16,7 @@
     <string name="hint_password">Password</string>
     <string name="hintpassword">Password</string>
     <string name="sign_up_as_an_admin">Sign up as an Admin</string>
+    <string name="sign_up_personal">Sign up Personal</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="email">Email</string>
 </resources>

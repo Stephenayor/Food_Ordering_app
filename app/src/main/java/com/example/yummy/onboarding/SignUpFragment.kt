@@ -1,26 +1,50 @@
 package com.example.yummy.onboarding
 
 import android.animation.ObjectAnimator
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.CompoundButton
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import co.ceryle.radiorealbutton.RadioRealButton
 import com.example.yummy.R
 import com.example.yummy.databinding.FragmentSignUpBinding
+import com.example.yummy.utils.AppConstants
+import com.example.yummy.utils.Tools
 import com.example.yummy.utils.Validations
 import com.example.yummy.utils.animations.Animations
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 
 
 class SignUpFragment : Fragment() {
     private var realButtonAdmin: RadioRealButton? = null
     private var realButtonPersonal: RadioRealButton? = null
     private lateinit var binding: FragmentSignUpBinding
+    private lateinit var signupButton: Button
+    private var isValidEmail: Boolean = false
+    private var isValidPassword: Boolean = false
+    private var isUsernameValid: Boolean = false
+    private lateinit var userName: EditText
+    private lateinit var firebaseAuth: FirebaseAuth
+    private val cloudFireStore = Firebase.firestore
+    private lateinit var userEmail: EditText
+    private lateinit var confirmPasswordEditText: EditText
+    private lateinit var adminCheckBox: CheckBox
+    private lateinit var personalCheckBox: CheckBox
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +55,7 @@ class SignUpFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
@@ -41,6 +65,13 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         realButtonAdmin = binding.btnAdmin
         realButtonPersonal = binding.btnPersonal
+        signupButton = binding.btnSignUp
+        userName = binding.etUsername
+        firebaseAuth = Firebase.auth
+        userEmail = binding.etEmail
+        confirmPasswordEditText = binding.confirmSignUpPassword
+        adminCheckBox = binding.adminCheckbox
+        personalCheckBox = binding.personalCheckbox
 
         switchSignupButtonState()
         setupObservers()
@@ -51,6 +82,57 @@ class SignUpFragment : Fragment() {
         etEmail.addTextChangedListener(textWatcher)
         signUpPassword.addTextChangedListener(passwordTextWatcher)
         confirmSignUpPassword.addTextChangedListener(confirmPasswordTextWatcher)
+        userName.addTextChangedListener(userNameTextWatcher)
+
+        signupButton.setOnClickListener {
+            onboardNewUsers()
+        }
+
+        adminCheckbox.setOnCheckedChangeListener { compoundButton: CompoundButton, _: Boolean ->
+            enableDisableButton()
+        }
+
+        personalCheckbox.setOnCheckedChangeListener { compoundButton: CompoundButton, _: Boolean ->
+            enableDisableButton()
+            if (compoundButton.isChecked) {
+                enableDisableButton()
+            }
+        }
+    }
+
+    private fun onboardNewUsers() {
+        firebaseAuth.createUserWithEmailAndPassword(
+            userEmail.text.toString(),
+            binding.confirmSignUpPassword.text.toString()
+        )
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = firebaseAuth.currentUser
+                    if (user != null) {
+                        createUserDetailsOnFirebase(user)
+                    }
+                    Tools.showToast(requireContext(), "ACCOUNT CREATED SUCCESSFULLY")
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    Tools.showShortToast(
+                        requireContext(),
+                        "Authentication failed for Account Creation!."
+                    )
+                }
+            }
+    }
+
+    private fun createUserDetailsOnFirebase(user: FirebaseUser) {
+        val documentReference = cloudFireStore.collection(AppConstants.USERS).document(user.uid)
+        val userDetails = HashMap<String, Any>()
+        userDetails["UserEmail"] = userEmail.text.toString()
+        userDetails["UserName"] = userName.text.toString()
+        userDetails["Password"] = confirmPasswordEditText.text.toString()
+        if (adminCheckBox.isChecked) {
+            userDetails["isAdmin"] = 1
+        }
+        documentReference.set(userDetails)
     }
 
     private val textWatcher = object : TextWatcher {
@@ -89,12 +171,29 @@ class SignUpFragment : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            if (!binding.confirmSignUpPassword.text?.toString()?.
-                equals(binding.signUpPassword.text?.toString())!!) {
+            if (!binding.confirmSignUpPassword.text?.toString()
+                    ?.equals(binding.signUpPassword.text?.toString())!!
+            ) {
+                isValidPassword = false
                 binding.confirmSignUpPassword.error = "Check the Entered Password Again"
-            }else{
+            } else {
                 binding.confirmSignUpPassword.error = null
+                isValidPassword = true
             }
+            enableDisableButton()
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+
+        }
+    }
+
+    private val userNameTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            enableDisableButton()
         }
 
         override fun afterTextChanged(s: Editable?) {
@@ -104,8 +203,8 @@ class SignUpFragment : Fragment() {
 
     private fun validatePasswordFields(password: String) {
 
-        if (password.length < 8) {
-            binding.signUpPassword.error = "Please Enter at least 8 Characters"
+        if (password.length < 6) {
+            binding.signUpPassword.error = "Please Enter at least 6 Characters"
         }
 
         if (!containsDigit(password)) {
@@ -117,7 +216,6 @@ class SignUpFragment : Fragment() {
         }
 
 
-
     }
 
     private fun containsDigit(text: String): Boolean {
@@ -127,19 +225,24 @@ class SignUpFragment : Fragment() {
 
 
     private fun validateEmailField(email: String) {
+        isValidEmail = false
         if (email.length <= 1) {
             binding.etEmail.error = "Please Enter an Email"
         }
 
         if (Validations.isEmailValid(email)) {
             binding.etEmail.error = null
+            isValidEmail = true
         } else {
             binding.etEmail.error = "Please Enter a Valid Email"
         }
+        enableDisableButton()
     }
 
     private fun enableDisableButton() {
-        TODO("Not yet implemented")
+        signupButton.isEnabled = isValidEmail &&
+                Validations.isUsernameValid(userName.text.toString())
+                && isValidPassword && adminCheckBox.isChecked || personalCheckBox.isChecked
     }
 
     private fun switchSignupButtonState() = binding.apply {

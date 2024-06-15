@@ -2,11 +2,12 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
 }
 
 android {
     namespace 'com.example.yummy'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.yummy"
@@ -40,7 +41,7 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -63,6 +64,11 @@ dependencies {
 
     //Animations
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
+
+    //Firebase
+    implementation 'com.google.firebase:firebase-auth:23.0.0'
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-firestore")
 
 
 }
