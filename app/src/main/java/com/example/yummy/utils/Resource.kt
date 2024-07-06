@@ -1,9 +1,27 @@
 package com.example.yummy.utils
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+
 sealed class Resource<T>(val data: T? = null, val message: String? = null) {
-    class Success<T>(data: T?) : Resource<T>(data)
-    class Error<T>(message: String?, data: T? = null) : Resource<T>(data, message)
-    class Loading<T> : Resource<T>(null, null)
+    class Success<T>(data: T?) : Resource<T>(data), Flow<Resource<Any>> {
+        override suspend fun collect(collector: FlowCollector<Resource<Any>>) {
+
+        }
+    }
+
+    class Error<T>(message: String?, data: T? = null) : Resource<T>(data, message),
+        Flow<Resource<Any>> {
+        override suspend fun collect(collector: FlowCollector<Resource<Any>>) {
+
+        }
+    }
+
+    class Loading<T> : Resource<T>(null, null), Flow<Resource<Any>> {
+        override suspend fun collect(collector: FlowCollector<Resource<Any>>) {
+
+        }
+    }
 
     class J<T>: Resource<T>()
 }

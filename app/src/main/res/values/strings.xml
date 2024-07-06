@@ -19,4 +19,12 @@
     <string name="sign_up_personal">Sign up Personal</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="email">Email</string>
+    <string name="mssg_loading">Loading</string>
+    <string name="creating_account">Creating Profile</string>
+    <string name="mssg_creating_your_account">Creating your account</string>
+    <string name="please_wait_dots">Please wait...</string>
+    <string name="_autofilled">Your details has been autofilled</string>
+    <string name="mssg_continue">Continue</string>
+    <string name="proceed">Proceed</string>
+    <string name="action_dismiss">Dismiss</string>
 </resources>

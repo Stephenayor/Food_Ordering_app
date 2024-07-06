@@ -1,6 +1,7 @@
 package com.example.yummy.onboarding
 
 import android.animation.ObjectAnimator
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.text.Editable
@@ -16,24 +17,39 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import co.ceryle.radiorealbutton.RadioRealButton
 import com.example.yummy.R
 import com.example.yummy.databinding.FragmentSignUpBinding
+import com.example.yummy.onboarding.viewmodel.SignUpViewModel
 import com.example.yummy.utils.AppConstants
+import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
+
 import com.example.yummy.utils.Validations
 import com.example.yummy.utils.animations.Animations
+import com.example.yummy.utils.base.BaseFragment
+import com.example.yummy.utils.dialogs.BottomDialog2Options
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import dagger.hilt.android.AndroidEntryPoint
 
-
-class SignUpFragment : Fragment() {
+@AndroidEntryPoint
+class SignUpFragment : BaseFragment<FragmentSignUpBinding>(){
     private var realButtonAdmin: RadioRealButton? = null
     private var realButtonPersonal: RadioRealButton? = null
     private lateinit var binding: FragmentSignUpBinding
+
+
+    override fun getLayoutId(): Int = R.layout.fragment_sign_up
+
+    override fun getLayoutBinding(binding: FragmentSignUpBinding) {
+        this.binding = binding
+    }
+
     private lateinit var signupButton: Button
     private var isValidEmail: Boolean = false
     private var isValidPassword: Boolean = false
@@ -45,6 +61,7 @@ class SignUpFragment : Fragment() {
     private lateinit var confirmPasswordEditText: EditText
     private lateinit var adminCheckBox: CheckBox
     private lateinit var personalCheckBox: CheckBox
+    private val signUpViewModel by viewModels<SignUpViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,14 +69,6 @@ class SignUpFragment : Fragment() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentSignUpBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,7 +84,45 @@ class SignUpFragment : Fragment() {
 
         switchSignupButtonState()
         setupObservers()
+        subscribeToLiveData()
 
+    }
+
+    private fun subscribeToLiveData() {
+        signUpViewModel.signupUserResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showLoading(R.string.please_wait_dots, R.string.mssg_creating_your_account)
+                }
+
+                is Resource.Success -> {
+                    hideLoading()
+                    //TODO Design the Custom success screen
+                    if (response.data != null) {
+                        createUserDetailsOnFirebase(response.data)
+                    }
+                }
+
+                is Resource.Error -> {
+                    hideLoading()
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Error")
+                        .setMessage(response.message)
+                        .setPositiveButton("OK") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
+                }
+
+                else -> {}
+            }
+        }
+
+        signUpViewModel.testResponse.observe(viewLifecycleOwner) {
+            if (it != null) {
+                Tools.showToast(requireContext(), it)
+            }
+        }
     }
 
     private fun setupObservers() = binding.apply {
@@ -101,26 +148,49 @@ class SignUpFragment : Fragment() {
     }
 
     private fun onboardNewUsers() {
-        firebaseAuth.createUserWithEmailAndPassword(
+        showLoading(R.string.please_wait_dots, R.string.mssg_creating_your_account)
+//        firebaseAuth.createUserWithEmailAndPassword(
+//            userEmail.text.toString(),
+//            binding.confirmSignUpPassword.text.toString()
+//        )
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    val user = firebaseAuth.currentUser
+//                    if (user != null) {
+//                        createUserDetailsOnFirebase(user)
+//                    }
+//                    Tools.showToast(requireContext(), "ACCOUNT CREATED SUCCESSFULLY")
+//                } else {
+//                    // If sign in fails, display a message to the user.
+//                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+//                    Tools.showShortToast(
+//                        requireContext(),
+//                        "Authentication failed for Account Creation!."
+//                    )
+//                }
+//            }
+
+        signUpViewModel.executeOnboardNewUser(
             userEmail.text.toString(),
             binding.confirmSignUpPassword.text.toString()
         )
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val user = firebaseAuth.currentUser
-                    if (user != null) {
-                        createUserDetailsOnFirebase(user)
-                    }
-                    Tools.showToast(requireContext(), "ACCOUNT CREATED SUCCESSFULLY")
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    Tools.showShortToast(
-                        requireContext(),
-                        "Authentication failed for Account Creation!."
-                    )
-                }
-            }
+
+
+//        if (adminCheckBox.isChecked) {
+//            hideLoading()
+//            Tools.openDualOptionBottomDialog(
+//                requireActivity(),
+//                "Please Note",
+//                "Only Authorized Users can create an Admin account",
+//                true
+//            )
+//        }
+//        else {
+//            signUpViewModel.executeOnboardNewUser(
+//                userEmail.text.toString(),
+//                binding.confirmSignUpPassword.text.toString()
+//            )
+//        }
     }
 
     private fun createUserDetailsOnFirebase(user: FirebaseUser) {
@@ -331,4 +401,5 @@ class SignUpFragment : Fragment() {
 
             }
     }
+
 }

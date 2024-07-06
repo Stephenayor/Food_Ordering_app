@@ -1,12 +1,15 @@
-package com.example.yummy.view
+package com.example.yummy.onboarding.activity
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.example.yummy.R
+import com.example.yummy.utils.dialogs.BottomDialog2Options
+import dagger.hilt.android.AndroidEntryPoint
 
-class OnboardingActivity : FragmentActivity() {
+@AndroidEntryPoint
+class OnboardingActivity : FragmentActivity(), BottomDialog2Options.OnSelectMenuItemListener  {
 
     companion object {
         fun start(context: Context) {
@@ -22,5 +25,13 @@ class OnboardingActivity : FragmentActivity() {
         setContentView(R.layout.activity_onboarding)
 
 
+    }
+
+    override fun onProceed() {
+
+    }
+
+    override fun onCancel() {
+        TODO("Not yet implemented")
     }
 }

@@ -17,6 +17,7 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.yummy.R
 import com.example.yummy.databinding.ActivityIntroSliderBinding
+import com.example.yummy.onboarding.activity.OnboardingActivity
 
 
 class IntroSliderActivity : AppCompatActivity() {

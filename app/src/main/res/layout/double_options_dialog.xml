@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:background="@drawable/rounded_rectangle_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_transfer_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dialog_title_margin_top"
+            android:fontFamily="@font/khula"
+            android:gravity="center_horizontal"
+            android:padding="15dp"
+            android:textSize="16sp"
+            android:visibility="gone"
+            tools:text="" />
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dialog_title_margin_top"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textColor="#494949"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Important Notice" />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textSize="13sp"
+            tools:text="NGN12,000.00 will be deducted from your account" />
+
+        <View
+            style="@style/Divider"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:layout_marginBottom="@dimen/dimen_12" />
+
+        <TextView
+            android:id="@+id/tv_proceed"
+            style="@style/bottomDialogButtonTextStyle"
+            android:layout_width="match_parent"
+            android:background="?android:selectableItemBackground"
+            android:gravity="bottom|center_horizontal"
+            android:padding="15dp"
+            android:text="@string/proceed"
+            android:textAlignment="gravity"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <View
+            style="@style/Divider"
+            android:layout_marginTop="@dimen/padding_10" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            style="@style/bottomDialogButtonTextStyle"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/padding_10"
+            android:layout_marginBottom="@dimen/padding_10"
+            android:background="?android:selectableItemBackground"
+            android:gravity="bottom|center_horizontal"
+            android:padding="@dimen/dimen_15"
+            android:text="@string/action_dismiss"
+            android:textAlignment="gravity"
+            android:textSize="@dimen/validation_action_size"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_main"
+            style="@style/notificationTopImageStyle"
+            app:cardBackgroundColor="@color/yellow">
+
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_notice_white" />
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+</RelativeLayout>

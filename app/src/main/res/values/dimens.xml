@@ -5,4 +5,13 @@
     <dimen name="spacing_mlarge">20dp</dimen>
     <dimen name="spacing_mxlarge">25dp</dimen>
     <dimen name="padding_10">10dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
+    <dimen name="spacing_large">15dp</dimen>
+    <dimen name="dimen_55dp">55dp</dimen>
+    <dimen name="dialog_margin_top">32dp</dimen>
+    <dimen name="dialog_title_margin_top">48dp</dimen>
+    <dimen name="dimen_12">@dimen/chef</dimen>
+    <dimen name="chef">12dp</dimen>
+    <dimen name="dimen_15">15dp</dimen>
+    <dimen name="validation_action_size">14sp</dimen>
 </resources>
