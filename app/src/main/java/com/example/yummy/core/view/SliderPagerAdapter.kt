@@ -1,4 +1,4 @@
-package com.example.yummy.view
+package com.example.yummy.core.view
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

@@ -1,35 +1,32 @@
-package com.example.yummy.onboarding
+package com.example.yummy.core.onboarding
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import co.ceryle.radiorealbutton.RadioRealButton
 import com.example.yummy.R
 import com.example.yummy.databinding.FragmentSignUpBinding
-import com.example.yummy.onboarding.viewmodel.SignUpViewModel
+import com.example.yummy.core.onboarding.viewmodel.SignUpViewModel
 import com.example.yummy.utils.AppConstants
+import com.example.yummy.utils.NavigateTo
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
 
 import com.example.yummy.utils.Validations
 import com.example.yummy.utils.animations.Animations
 import com.example.yummy.utils.base.BaseFragment
-import com.example.yummy.utils.dialogs.BottomDialog2Options
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -38,7 +35,7 @@ import com.google.firebase.firestore.firestore
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignUpFragment : BaseFragment<FragmentSignUpBinding>(){
+class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
     private var realButtonAdmin: RadioRealButton? = null
     private var realButtonPersonal: RadioRealButton? = null
     private lateinit var binding: FragmentSignUpBinding
@@ -97,9 +94,17 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(){
 
                 is Resource.Success -> {
                     hideLoading()
-                    //TODO Design the Custom success screen
+                    Log.d("response", response.data.toString())
                     if (response.data != null) {
                         createUserDetailsOnFirebase(response.data)
+                        val action =
+                            SignUpFragmentDirections.actionSignUpFragmentToSuccessFragment(
+                                AppConstants.ACCOUNT_CREATED,
+                                "Please proceed to login to explore the goodness available",
+                                AppConstants.CONTINUE,
+                                NavigateTo.LOGIN.toString()
+                            )
+                        findNavController().navigate(action)
                     }
                 }
 
@@ -148,49 +153,24 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(){
     }
 
     private fun onboardNewUsers() {
-        showLoading(R.string.please_wait_dots, R.string.mssg_creating_your_account)
-//        firebaseAuth.createUserWithEmailAndPassword(
-//            userEmail.text.toString(),
-//            binding.confirmSignUpPassword.text.toString()
-//        )
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    val user = firebaseAuth.currentUser
-//                    if (user != null) {
-//                        createUserDetailsOnFirebase(user)
-//                    }
-//                    Tools.showToast(requireContext(), "ACCOUNT CREATED SUCCESSFULLY")
-//                } else {
-//                    // If sign in fails, display a message to the user.
-//                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-//                    Tools.showShortToast(
-//                        requireContext(),
-//                        "Authentication failed for Account Creation!."
-//                    )
-//                }
-//            }
+        if (adminCheckBox.isChecked) {
+            signUpViewModel.executeOnboardNewUser(
+                binding.etUsername.text.toString(),
+                binding.confirmSignUpPassword.text.toString()
+            )
 
-        signUpViewModel.executeOnboardNewUser(
-            userEmail.text.toString(),
-            binding.confirmSignUpPassword.text.toString()
-        )
-
-
-//        if (adminCheckBox.isChecked) {
-//            hideLoading()
-//            Tools.openDualOptionBottomDialog(
-//                requireActivity(),
-//                "Please Note",
-//                "Only Authorized Users can create an Admin account",
-//                true
-//            )
-//        }
-//        else {
-//            signUpViewModel.executeOnboardNewUser(
-//                userEmail.text.toString(),
-//                binding.confirmSignUpPassword.text.toString()
-//            )
-//        }
+            Tools.openDualOptionBottomDialog(
+                requireActivity(),
+                "Please Note",
+                "Only Authorized Users can create an Admin account",
+                true
+            )
+        } else {
+            signUpViewModel.executeOnboardNewUser(
+                userName.text.toString(),
+                binding.confirmSignUpPassword.text.toString()
+            )
+        }
     }
 
     private fun createUserDetailsOnFirebase(user: FirebaseUser) {
@@ -352,6 +332,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(){
         changeBackground(binding.bgImage, R.drawable.password_sign_up_pattern_right)
         hidePersonalStateCheckbox()
         showAdminStateCheckBox()
+        clearEditText()
     }
 
 
@@ -363,6 +344,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(){
         changeBackground(binding.bgImage, R.drawable.sign_up_patten_gold)
         showCheckBox()
         hideAdminStateCheckbox()
+        clearEditText()
     }
 
     private fun showCheckBox() = binding.apply {
@@ -381,6 +363,15 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(){
     private fun hidePersonalStateCheckbox() = binding.apply {
         signUpPersonal.visibility = View.INVISIBLE
         personalCheckbox.visibility = View.INVISIBLE
+    }
+
+    private fun clearEditText() = binding.apply {
+        etEmail.text?.clear()
+        signUpPassword.text?.clear()
+        confirmSignUpPassword.text?.clear()
+        userName.text?.clear()
+        adminCheckBox.isChecked = false
+        personalCheckBox.isChecked = false
     }
 
 

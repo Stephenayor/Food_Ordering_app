@@ -1,4 +1,4 @@
-package com.example.yummy.view
+package com.example.yummy.core.view
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -13,12 +13,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.yummy.R
@@ -49,8 +43,10 @@ class SliderItemFragment : Fragment() {
     }
 
     fun navigate() {
-        val action = SliderItemFragmentDirections.actionSliderItemFragmentToSignUpFragment4()
+        val action =
+          SliderItemFragmentDirections.actionSliderItemFragmentToSignUpFragment()
         findNavController().navigate(action)
+
     }
 
     override fun onCreateView(

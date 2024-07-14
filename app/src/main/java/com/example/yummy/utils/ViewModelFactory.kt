@@ -2,8 +2,8 @@ package com.example.yummy.utils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.yummy.data.SignupLoginRepository
-import com.example.yummy.onboarding.viewmodel.SignUpViewModel
+import com.example.yummy.data.repository.SignupLoginRepository
+import com.example.yummy.core.onboarding.viewmodel.SignUpViewModel
 import javax.inject.Inject
 import javax.inject.Singleton
 

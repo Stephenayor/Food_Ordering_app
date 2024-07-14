@@ -55,7 +55,7 @@ class ProgressDialogFragment : DialogFragment(), DialogInterface.OnClickListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen)
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Translucent)
     }
 
     override fun onStart() {

@@ -3,18 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/intro_nav_graph"
-    app:startDestination="@id/signUpFragment4">
+    app:startDestination="@id/signUpFragment">
     <fragment
         android:id="@+id/sliderItemFragment"
-        android:name="com.example.yummy.view.SliderItemFragment"
+        android:name="com.example.yummy.core.view.SliderItemFragment"
         android:label="SliderItemFragment" >
         <action
-            android:id="@+id/action_sliderItemFragment_to_signUpFragment4"
-            app:destination="@id/signUpFragment4" />
+            android:id="@+id/action_sliderItemFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
-        android:id="@+id/signUpFragment4"
-        android:name="com.example.yummy.onboarding.SignUpFragment"
-        android:label="SignUpFragment" />
+        android:id="@+id/successFragment"
+        android:name="com.example.yummy.utils.view.SuccessFragment"
+        android:label="SuccessFragment" >
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="subtitle"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="buttonText"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="whereToNaviagateText"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_successFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.yummy.core.onboarding.SignUpFragment"
+        android:label="SignUpFragment" >
+        <action
+            android:id="@+id/action_signUpFragment_to_successFragment"
+            app:destination="@id/successFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.yummy.core.login.LoginFragment"
+        android:label="LoginFragment" />
 
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.yummy.view
+package com.example.yummy.core.view
 
 import android.graphics.Color
 import android.os.Build
@@ -17,7 +17,7 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.yummy.R
 import com.example.yummy.databinding.ActivityIntroSliderBinding
-import com.example.yummy.onboarding.activity.OnboardingActivity
+import com.example.yummy.core.onboarding.activity.OnboardingActivity
 
 
 class IntroSliderActivity : AppCompatActivity() {

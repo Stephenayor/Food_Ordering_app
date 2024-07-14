@@ -13,13 +13,13 @@
         android:theme="@style/Theme.Yummy"
         tools:targetApi="31">
         <activity
-            android:name=".onboarding.activity.OnboardingActivity"
+            android:name=".core.onboarding.activity.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".view.IntroSliderActivity"
+            android:name=".core.view.IntroSliderActivity"
             android:exported="false" />
         <activity
-            android:name=".view.SplashScreen"
+            android:name=".core.view.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

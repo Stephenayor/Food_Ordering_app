@@ -1,4 +1,4 @@
-package com.example.yummy.onboarding.activity
+package com.example.yummy.core.onboarding.activity
 
 import android.content.Context
 import android.content.Intent

@@ -25,6 +25,7 @@
                 android:id="@+id/tv_top_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:fontFamily="@font/khula_bold"
                 tools:text="@string/mssg_creating_your_account"
                 android:textSize="16sp"

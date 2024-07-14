@@ -7,7 +7,7 @@
         android:id="@+id/intro_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.IntroSliderActivity">
+        tools:context=".core.view.IntroSliderActivity">
 
         <TextView
             android:id="@+id/slider_main_text"
