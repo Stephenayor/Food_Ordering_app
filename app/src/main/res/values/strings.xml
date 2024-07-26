@@ -22,9 +22,26 @@
     <string name="mssg_loading">Loading</string>
     <string name="creating_account">Creating Profile</string>
     <string name="mssg_creating_your_account">Creating your account</string>
+    <string name="loading_your_fun_experience">Loading your Fun Experience</string>
     <string name="please_wait_dots">Please wait...</string>
     <string name="_autofilled">Your details has been autofilled</string>
     <string name="mssg_continue">Continue</string>
     <string name="proceed">Proceed</string>
     <string name="action_dismiss">Dismiss</string>
+    <string name="action_back">Back</string>
+    <string name="hamburger_ic">hambuger_ic</string>
+    <string name="yummy">Yummy</string>
+    <string name="login_to_your_naccount">Login to your \naccount</string>
+    <string name="please_sign_in_to_your_account">Please sign in to your account</string>
+    <string name="email_address">Email Address</string>
+    <string name="enter_email_here">Enter Email Here</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="separator">separator</string>
+    <string name="dont_have_an_account">Dont have an account?</string>
+    <string name="register">Register</string>
+    <string name="web_client_id">834594835811-deg04tekm874csie26f7uokllcd6gcv5.apps.googleusercontent.com</string>
+    <string name="web_application_client_id">304911208533-iksp5b9qqt94k0teioide6qm9pfbco2k.apps.googleusercontent.com</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_coming_soon">Coming Soon...</string>
+    <string name="mssg_coming_soon">Update your app regularly to get the latest features.</string>
 </resources>

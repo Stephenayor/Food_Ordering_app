@@ -1,29 +1,36 @@
 package com.example.yummy.core.onboarding
 
+import android.R.attr.password
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import co.ceryle.radiorealbutton.RadioRealButton
 import com.example.yummy.R
-import com.example.yummy.databinding.FragmentSignUpBinding
 import com.example.yummy.core.onboarding.viewmodel.SignUpViewModel
+import com.example.yummy.databinding.FragmentSignUpBinding
 import com.example.yummy.utils.AppConstants
 import com.example.yummy.utils.NavigateTo
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
-
 import com.example.yummy.utils.Validations
 import com.example.yummy.utils.animations.Animations
 import com.example.yummy.utils.base.BaseFragment
@@ -33,6 +40,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
@@ -79,10 +87,40 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         adminCheckBox = binding.adminCheckbox
         personalCheckBox = binding.personalCheckbox
 
-        switchSignupButtonState()
+        switchSignupProfile()
         setupObservers()
         subscribeToLiveData()
 
+        val toolbar: Toolbar = view.findViewById(R.id.toolbar)
+        (requireActivity() as? AppCompatActivity)?.setSupportActionBar(toolbar)
+        // Optional: Set up navigation icon and listener
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayShowHomeEnabled(true)
+
+    }
+
+
+
+//    @Deprecated("Deprecated in Java")
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            android.R.id.home -> {
+//                requireActivity().onBackPressed()
+//                true
+//            }
+//
+//            R.id.hamburger_icon -> {
+//                Tools.showToast(requireContext(), "Reaching")
+//                true
+//            }
+//
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
+
+    override fun onStart() {
+        super.onStart()
+        setupObservers()
     }
 
     private fun subscribeToLiveData() {
@@ -154,11 +192,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
     private fun onboardNewUsers() {
         if (adminCheckBox.isChecked) {
-            signUpViewModel.executeOnboardNewUser(
-                binding.etUsername.text.toString(),
-                binding.confirmSignUpPassword.text.toString()
-            )
-
             Tools.openDualOptionBottomDialog(
                 requireActivity(),
                 "Please Note",
@@ -167,7 +200,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
             )
         } else {
             signUpViewModel.executeOnboardNewUser(
-                userName.text.toString(),
+                userEmail.text.toString(),
                 binding.confirmSignUpPassword.text.toString()
             )
         }
@@ -210,8 +243,8 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         }
 
         override fun afterTextChanged(s: Editable?) {
-            if (s.toString().length < 8) {
-                binding.signUpPassword.error = "Please Enter at least 8 Characters"
+            if (s.toString().length < 6) {
+                binding.signUpPassword.error = "Please Enter at least 6 Characters"
             }
         }
     }
@@ -295,7 +328,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
                 && isValidPassword && adminCheckBox.isChecked || personalCheckBox.isChecked
     }
 
-    private fun switchSignupButtonState() = binding.apply {
+    private fun switchSignupProfile() = binding.apply {
 
         try {
             val drawableTint = ResourcesCompat.getDrawable(
@@ -345,6 +378,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         showCheckBox()
         hideAdminStateCheckbox()
         clearEditText()
+        enableDisableButton()
     }
 
     private fun showCheckBox() = binding.apply {
@@ -366,9 +400,12 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
     }
 
     private fun clearEditText() = binding.apply {
-        etEmail.text?.clear()
+        etEmail.requestFocus()
+        etEmail.addTextChangedListener(textWatcher)
+
+//        etEmail.text?.clear()
         signUpPassword.text?.clear()
-        confirmSignUpPassword.text?.clear()
+//        confirmSignUpPassword.text?.clear()
         userName.text?.clear()
         adminCheckBox.isChecked = false
         personalCheckBox.isChecked = false

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/yellow" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xxxlarge"
+            android:layout_marginBottom="@dimen/spacing_xxlarge"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_hour_glass"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/spacing_smlarge"
+                app:srcCompat="@drawable/hour_glass" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/iv_hour_glass"
+                android:text="@string/title_coming_soon"
+                android:textColor="@color/purple"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_title"
+                android:layout_toEndOf="@+id/iv_hour_glass"
+                android:text="@string/mssg_coming_soon"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/spacing_middle"
+            android:layout_marginEnd="@dimen/spacing_middle"
+            android:background="#E6E3E3" />
+
+        <LinearLayout
+            android:id="@+id/ll_dismiss"
+            style="@style/bottomDialogButtonStyle">
+
+            <TextView
+                style="@style/bottomDialogButtonTextStyle_v2"
+                android:text="@string/action_dismiss" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,5 +1,7 @@
 package com.example.yummy.core.view
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +15,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.yummy.R
@@ -100,7 +103,10 @@ class IntroSliderActivity : AppCompatActivity() {
 
     private fun setupClickListeners()  {
         binding.btnSignUp.setOnClickListener {
-            OnboardingActivity.start(this)
+            OnboardingActivity.start(this, false)
+        }
+        binding.btnLogin.setOnClickListener {
+            OnboardingActivity.start(this, true)
         }
     }
 
@@ -124,6 +130,16 @@ class IntroSliderActivity : AppCompatActivity() {
             val window: Window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.setStatusBarColor(Color.TRANSPARENT)
+        }
+    }
+
+    companion object {
+        fun start(context: Context) {
+            val starter = Intent(
+                context,
+                IntroSliderActivity::class.java
+            )
+            context.startActivity(starter)
         }
     }
 }

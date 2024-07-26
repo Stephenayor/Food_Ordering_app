@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.example.yummy.utils.dialogs.BottomDialog2Options
+import com.example.yummy.utils.dialogs.ComingSoonDialog
 import com.example.yummy.utils.dialogs.ProgressDialogFragment
 
 class Tools {
@@ -41,6 +42,16 @@ class Tools {
                 activity.supportFragmentManager,
                 "SuccessErrorDialog"
             )
+        }
+
+        fun openComingSoonDialog(activity: FragmentActivity) {
+            val dialog: ComingSoonDialog = ComingSoonDialog.newInstance()
+            if (!activity.isFinishing) {
+                dialog.show(
+                    activity.supportFragmentManager,
+                    dialog.tag
+                )
+            }
         }
     }
 }

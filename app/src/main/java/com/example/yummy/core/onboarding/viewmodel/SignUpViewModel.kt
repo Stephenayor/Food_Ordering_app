@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.yummy.data.repository.SignupLoginRepository
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Resource.Loading
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,18 +47,27 @@ class SignUpViewModel @Inject constructor(
     }
 
 
-    fun executeOnboardNew(userEmail: String, password: String) {
-        _signupUserResponse.postValue(Loading())
 
-        viewModelScope.launch {
-            val response =
-                signupLoginRepository.executeOnboard(userEmail, password).collect{ values ->
-                    _signupUserResponse.postValue(values)
 
-//                    _signupUserResponse.value = values
 
-                }
-        }
+
+
+
+
+
+
+//    fun executeOnboardNew(userEmail: String, password: String) {
+//        _signupUserResponse.postValue(Loading())
+//
+//        viewModelScope.launch {
+//            val response =
+//                signupLoginRepository.executeOnboard(userEmail, password).collect{ values ->
+//                    _signupUserResponse.postValue(values)
+//
+////                    _signupUserResponse.value = values
+//
+//                }
+//        }
 
     }
-}
+

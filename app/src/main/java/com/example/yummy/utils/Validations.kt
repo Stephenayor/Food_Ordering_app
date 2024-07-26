@@ -15,7 +15,7 @@ object Validations{
 
     fun isPasswordValid(password: String): Boolean {
         // Customize this function based on your password validation criteria
-        val regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+        val regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$"
         return password.matches(Regex(regex))
     }
 }

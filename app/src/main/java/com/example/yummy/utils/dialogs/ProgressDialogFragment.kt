@@ -55,7 +55,7 @@ class ProgressDialogFragment : DialogFragment(), DialogInterface.OnClickListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, android.R.style.Theme_Translucent)
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_LightStatusBar)
     }
 
     override fun onStart() {
@@ -71,9 +71,9 @@ class ProgressDialogFragment : DialogFragment(), DialogInterface.OnClickListener
     companion object {
         const val TAG = "ProgressDialogFragment"
         val ARG_TOP_TITLE = (ProgressDialogFragment::class.java.getCanonicalName()
-                + ".ARG_TOP_TITLE")
+            ?.plus(".ARG_TOP_TITLE"))
         val ARG_BOTTOM_TITLE = (ProgressDialogFragment::class.java.getCanonicalName()
-                + ".ARG_BOTTOM_TITLE")
+            ?.plus(".ARG_BOTTOM_TITLE"))
         const val NO_TITLE = -1
         fun newInstance(@IdRes topTitle: Int, @IdRes bottomTitle: Int): ProgressDialogFragment {
             val fragment = ProgressDialogFragment()

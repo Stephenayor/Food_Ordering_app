@@ -13,6 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/app_default_purple"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/toolbarStyle"
+            android:clickable="true"
+            app:titleTextColor="@color/white"
+            android:focusable="true" />
+
 
             <RelativeLayout
                 android:id="@+id/view"
@@ -100,6 +114,15 @@
                         android:textColorHint="@color/medium_gray"
                         android:textCursorDrawable="@drawable/hint_colour"
                         app:drawableLeftCompat="@drawable/ic_person_gray_24dp" />
+
+<!--                    <androidx.appcompat.widgets.PasswordEditText-->
+<!--                        android:id="@+id/et_password"-->
+<!--                        style="@style/editText"-->
+<!--                        android:layout_below="@+id/et_username"-->
+<!--                        android:layout_marginTop="@dimen/dimen_20"-->
+<!--                        android:hint="@string/hint_password"-->
+<!--                        android:importantForAutofill="no"-->
+<!--                        android:inputType="textPassword" />-->
 
 
                     <androidx.appcompat.widget.AppCompatEditText
