@@ -60,5 +60,13 @@ class LoginViewModel@Inject constructor(
         }
     }
 
+    fun saveLoginUID(key: String, value: String) {
+        signupLoginRepository.saveLoginUID(key, value)
+    }
+
+    fun getLoginUID(key: String): String? {
+        return signupLoginRepository.getLoginUID(key)
+    }
+
 
 }

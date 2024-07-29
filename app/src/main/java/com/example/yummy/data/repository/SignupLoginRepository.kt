@@ -2,6 +2,7 @@ package com.example.yummy.data.repository
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import com.example.yummy.R
 import com.example.yummy.utils.AppConstants
@@ -26,7 +27,8 @@ import javax.inject.Inject
 class SignupLoginRepository @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val firebaseFirestore: FirebaseFirestore,
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val encryptedPrefs: SharedPreferences
 ) {
 
     @Inject
@@ -125,6 +127,14 @@ class SignupLoginRepository @Inject constructor(
             }
 
             awaitClose {}
+    }
+
+    fun saveLoginUID(key: String, value: String) {
+        encryptedPrefs.edit().putString(key, value).apply()
+    }
+
+    fun getLoginUID(key: String): String? {
+        return encryptedPrefs.getString(key, null)
     }
 
 

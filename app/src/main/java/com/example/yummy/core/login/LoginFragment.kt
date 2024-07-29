@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.yummy.R
+import com.example.yummy.core.admin.AdminActivity
 import com.example.yummy.core.login.viewmodel.LoginViewModel
 import com.example.yummy.core.onboarding.SignUpFragmentDirections
 import com.example.yummy.databinding.FragmentLoginBinding
@@ -29,6 +30,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -43,6 +46,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private val REQUEST_CODE_SIGN_IN: Int = 1
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var oneTapClient: SignInClient
+    private val cloudFireStore = Firebase.firestore
+    private var isAdmin = false
+
 
     override fun getLayoutId(): Int = R.layout.fragment_login
 
@@ -62,9 +68,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
+        val uid = loginViewModel.getLoginUID(AppConstants.LOGIN_UID)
         val currentUser = firebaseAuth.currentUser
-        if (currentUser != null) {
-
+        val documentReference =
+            cloudFireStore.collection(AppConstants.USERS).document(uid.toString())
+        documentReference.get().addOnSuccessListener {
+            if (it.get("isAdmin") != null) {
+                isAdmin = true
+            }
+        }
+        if (currentUser != null && isAdmin) {
+            AdminActivity.start(requireActivity())
+        } else {
+            Tools.openComingSoonDialog(requireActivity())
         }
     }
 
@@ -90,7 +106,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 is Resource.Success -> {
                     hideLoading()
                     if (response.data != null) {
-                        Tools.showToast(requireContext(), response.data.email)
+                        checkCategoryOfUser(response.data.uid)
+                        loginViewModel.saveLoginUID(AppConstants.LOGIN_UID, response.data.uid)
                     }
                 }
 
@@ -111,6 +128,26 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     }
 
+    private fun checkCategoryOfUser(uid: String) {
+        val documentReference = cloudFireStore.collection(AppConstants.USERS).document(uid)
+        documentReference.get().addOnSuccessListener { document ->
+            if (document != null && document.exists()) {
+                val isAdmin = document.get("isAdmin")
+                if (isAdmin != null) {
+                    AdminActivity.start(requireContext())
+                } else {
+                    // Handle the case where "isAdmin" is null
+                    Tools.showToast(requireActivity(), "User Activity!")
+                }
+            } else {
+                println("No such document")
+            }
+        }.addOnFailureListener { exception ->
+            println("get failed with $exception")
+        }
+
+    }
+
 
     private fun setViewListener() {
         binding.googleSignInButton.setOnClickListener {
@@ -118,8 +155,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
 
         binding.btnSignIn.setOnClickListener {
-            executeLogin(binding.emailEditTextField.text.toString(),
-                binding.passwordEditTextField.text.toString())
+            executeLogin(
+                binding.emailEditTextField.text.toString(),
+                binding.passwordEditTextField.text.toString()
+            )
         }
 
         binding.register.setOnClickListener {
@@ -129,6 +168,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
 
         binding.tvForgotPassword.setOnClickListener {
+            Tools.openComingSoonDialog(requireActivity())
+        }
+
+        binding.appleSignInButton.setOnClickListener {
             Tools.openComingSoonDialog(requireActivity())
         }
     }
