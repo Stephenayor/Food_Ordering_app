@@ -4,11 +4,15 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.example.yummy.data.repository.AddProductsRepository
 import com.example.yummy.data.repository.SignupLoginRepository
 import com.example.yummy.di.module.ViewModelFactoryModule
 import com.example.yummy.utils.AppConstants
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.storage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +35,12 @@ object AppModule {
     @Singleton
     fun provideFirebaseFirestore(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseCloudStorage(): FirebaseStorage {
+        return Firebase.storage
     }
 
     @Provides
@@ -61,6 +71,15 @@ object AppModule {
         sharedPreferences: SharedPreferences
     ): SignupLoginRepository {
         return SignupLoginRepository(firebaseAuth, firestore, context, sharedPreferences)
+    }
+
+    @Provides
+    fun provideAddProductsRepository(
+        firebaseStorage: FirebaseStorage,
+        firebaseFirestore: FirebaseFirestore,
+        context: Context,
+    ): AddProductsRepository {
+        return AddProductsRepository(firebaseStorage, firebaseFirestore, context)
     }
 
     @Provides

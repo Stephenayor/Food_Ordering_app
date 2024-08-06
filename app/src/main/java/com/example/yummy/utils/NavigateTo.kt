@@ -4,5 +4,6 @@ enum class NavigateTo {
         LOGIN,
         DASHBOARD,
         LOADING,
-        EMPTY
+        EMPTY,
+        ADMIN_DASHBOARD
     }

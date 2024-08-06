@@ -29,6 +29,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
@@ -48,6 +49,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private lateinit var oneTapClient: SignInClient
     private val cloudFireStore = Firebase.firestore
     private var isAdmin = false
+    private lateinit var userDetails: Any
 
 
     override fun getLayoutId(): Int = R.layout.fragment_login
@@ -80,7 +82,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         if (currentUser != null && isAdmin) {
             AdminActivity.start(requireActivity())
         } else {
-            Tools.openComingSoonDialog(requireActivity())
+            AdminActivity.start(requireActivity())
         }
     }
 
@@ -108,6 +110,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     if (response.data != null) {
                         checkCategoryOfUser(response.data.uid)
                         loginViewModel.saveLoginUID(AppConstants.LOGIN_UID, response.data.uid)
+                        val user = response.data
+                        user.let { checkIfUserExists(it.email, it.uid, it.displayName) }
                     }
                 }
 
@@ -146,6 +150,41 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             println("get failed with $exception")
         }
 
+    }
+
+
+    private fun checkIfUserExists(email: String?, uid: String, name: String?) {
+        email?.let {
+            cloudFireStore.collection(AppConstants.USERS).document(uid).get()
+                .addOnSuccessListener { document ->
+                    if (!document.exists()) {
+                        saveUserToFirestore(email, uid, name)
+                    } else {
+                        Log.d(TAG, "User already exists")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "Error checking user existence", exception)
+                }
+        }
+    }
+
+    private fun saveUserToFirestore(email: String, uid: String, name: String?) {
+        val userDetails = HashMap<String, Any>()
+        userDetails["UserEmail"] = email
+        userDetails["UserName"] = email.substringBefore("@")
+        userDetails["Password"] = ""
+        if (email == AppConstants.TEST_ADMIN_MAIL) {
+            userDetails["isAdmin"] = 1
+        }
+
+        cloudFireStore.collection(AppConstants.USERS).document(uid).set(userDetails)
+            .addOnSuccessListener {
+                Log.d(TAG, "User added to Firestore")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding user to Firestore", e)
+            }
     }
 
 

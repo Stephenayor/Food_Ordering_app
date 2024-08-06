@@ -18,6 +18,9 @@
     <color name="light_gray">#E0E0E0</color>
     <color name="dark_gray">#4F4F4F</color>
     <color name="very_light_gray">#D9D9D9</color>
+    //BLUE
+    <color name="light_blue">#38ACEC</color>
+    <color name="strong_sapphire_blue">#214296</color>
 
     <color name="background">#F8F8F8</color>
     <color name="purple_new">#5F138D</color>

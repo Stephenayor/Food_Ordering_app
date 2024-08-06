@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        tools:context=".core.admin.product.AddProductFragment">
+
+
+        <TextView
+            android:id="@+id/product_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="15dp"
+            android:text="@string/product_name"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productnameTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:layout_marginEnd="15dp"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/product_name_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productNameEditTextField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Product name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/product_price_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="15dp"
+            android:text="@string/price"
+            android:textColor="@color/dark_gray"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/productnameTextField" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productPriceTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:layout_marginEnd="15dp"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/product_price_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productPriceEditTextField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_price"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/add_image_view"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_15"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@id/productnameTextField"
+            android:src="@drawable/add_product_image"
+            app:layout_constraintTop_toTopOf="@id/productnameTextField"
+            app:layout_constraintBottom_toBottomOf="@id/productPriceTextField"/>
+
+        <ImageView
+            android:id="@+id/selected_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:layout_marginEnd="@dimen/dimen_15"
+            android:layout_marginStart="5dp"
+            tools:src="@drawable/add_product_image"
+            app:layout_constraintTop_toBottomOf="@id/productPriceTextField"
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/the_selected_image" />
+
+        <Button
+            android:id="@+id/btn_publish_products"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selected_image_view"
+            android:layout_marginStart="@dimen/dimen_15"
+            android:layout_marginEnd="@dimen/dimen_15"
+            android:textAlignment="gravity"
+            android:layout_marginBottom="30dp"
+            android:radius="@dimen/padding_10"
+            android:backgroundTint="@color/light_blue"
+            android:text="@string/publish_products" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

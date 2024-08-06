@@ -1,12 +1,19 @@
 package com.example.yummy.utils
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import com.example.yummy.R
 import com.example.yummy.utils.dialogs.BottomDialog2Options
 import com.example.yummy.utils.dialogs.ComingSoonDialog
 import com.example.yummy.utils.dialogs.ProgressDialogFragment
+import java.io.ByteArrayOutputStream
+import java.math.BigDecimal
+import java.util.Locale
 
 class Tools {
 
@@ -52,6 +59,33 @@ class Tools {
                     dialog.tag
                 )
             }
+        }
+
+        fun convertBitmapToBase64(bitmap: Bitmap?): String {
+            val stream = ByteArrayOutputStream()
+            if (bitmap != null) {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream)
+                val fileSize = bitmap.getByteCount() / 1048576
+                Log.d("convertBitmapToBase64", "File size: $fileSize")
+            }
+            val byteFormat = stream.toByteArray()
+            return Base64.encodeToString(byteFormat, Base64.NO_WRAP)
+        }
+
+        fun formatToCommaNaira(context: Context?, amount: String): String {
+            return try {
+                formatToCommaNaira(context!!, BigDecimal(amount))
+            } catch (nfe: NumberFormatException) {
+                nfe.printStackTrace()
+                amount
+            }
+        }
+
+        private fun formatToCommaNaira(context: Context, amount: BigDecimal): String {
+            return String.format(
+                Locale.US, context.resources.getString(R.string.money_naira_double_format),
+                amount.toDouble()
+            )
         }
     }
 }

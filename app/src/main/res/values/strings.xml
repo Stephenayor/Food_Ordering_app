@@ -24,6 +24,7 @@
     <string name="mssg_creating_your_account">Creating your account</string>
     <string name="loading_your_fun_experience">Loading your Fun Experience</string>
     <string name="please_wait_dots">Please wait...</string>
+    <string name="uploading_products">Uploading Products</string>
     <string name="_autofilled">Your details has been autofilled</string>
     <string name="mssg_continue">Continue</string>
     <string name="proceed">Proceed</string>
@@ -44,4 +45,16 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_coming_soon">Coming Soon...</string>
     <string name="mssg_coming_soon">Update your app regularly to get the latest features.</string>
+    <string name="dashboard">DashBoard</string>
+    <string name="home">Home</string>
+    <string name="orders">Orders</string>
+    <string name="profile">Profile</string>
+    <string name="add_new_products">Add New Products</string>
+    <string name="add_products">Add Products</string>
+    <string name="product_name">Product Name</string>
+    <string name="price">Price</string>
+    <string name="enter_price">Enter price</string>
+    <string name="the_selected_image">The Selected Image</string>
+    <string name="publish_products">Publish Products</string>
+    <string name="money_naira_double_format">&#8358;%,.02f</string>
 </resources>

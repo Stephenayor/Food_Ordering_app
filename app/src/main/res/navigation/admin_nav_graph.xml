@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_nav_graph"
+    app:startDestination="@id/navigation_dashboard">
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.yummy.core.admin.dashboard._admin.DashboardFragment"
+        android:label="DashboardFragment" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_addProductFragment"
+            app:destination="@id/addProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.yummy.core.admin.fragment.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/navigation_orders"
+        android:name="com.example.yummy.core.admin.fragment.OrdersFragment"
+        android:label="OrdersFragment"
+        tools:layout="@layout/fragment_orders"/>
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.yummy.core.admin.fragment.ProfileFragment"
+        android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/addProductFragment"
+        android:name="com.example.yummy.core.admin.product.AddProductFragment"
+        android:label="AddProductFragment" >
+        <action
+            android:id="@+id/action_addProductFragment_to_successFragment3"
+            app:destination="@id/successFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="com.example.yummy.utils.view.SuccessFragment"
+        android:label="SuccessFragment">
+    <argument
+        android:name="title"
+        app:argType="string"
+        app:nullable="true" />
+    <argument
+        android:name="subtitle"
+        app:argType="string"
+        app:nullable="true" />
+    <argument
+        android:name="buttonText"
+        app:argType="string"
+        app:nullable="true" />
+    <argument
+        android:name="whereToNaviagateText"
+        app:argType="string"
+        app:nullable="true" />
+    <action
+        android:id="@+id/action_successFragment_to_loginFragment"
+        app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_successFragment_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+
+</navigation>

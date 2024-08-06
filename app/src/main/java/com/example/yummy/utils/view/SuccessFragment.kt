@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.yummy.R
+import com.example.yummy.core.admin.AdminActivity
 import com.example.yummy.databinding.FragmentSuccessBinding
 import com.example.yummy.utils.NavigateTo
 import com.example.yummy.utils.base.BaseFragment
@@ -42,11 +43,12 @@ class SuccessFragment : BaseFragment<FragmentSuccessBinding>() {
                 val action = SuccessFragmentDirections.actionSuccessFragmentToLoginFragment()
                 findNavController().navigate(action)
             }
-            when (args.whereToNaviagateText) {
-                NavigateTo.LOGIN.equals(args.whereToNaviagateText).toString() -> {
-
-                }
+            if (args.whereToNaviagateText?.equals(NavigateTo.ADMIN_DASHBOARD.toString()) == true) {
+                AdminActivity.start(requireContext())
+//                val action = SuccessFragmentDirections.actionSuccessFragmentToDashboardFragment()
+//                findNavController().navigate(action)
             }
+
 
         }
     }
