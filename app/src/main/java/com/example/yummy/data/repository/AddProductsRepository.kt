@@ -66,12 +66,12 @@ class AddProductsRepository @Inject constructor(
     @ExperimentalCoroutinesApi
     fun getProductsFromFireStoreDatabase() =
         callbackFlow<Result<Resource<Product>>> {
-            val firebaseStorageReference = firebaseStorage.reference
             try {
-               val firestoreDocumentReference =
-                firebaseFirestore.collection(AppConstants.PRODUCT).document().get()
+               val fireStoreDocumentReference =
+                firebaseFirestore.collection(AppConstants.PRODUCT).document("6aaf97cd-4245-470a-80a4-401f3674bd19")
+                    .get()
                     .await()
-                val product = firestoreDocumentReference.toObject(Product::class.java)
+                val product = fireStoreDocumentReference.toObject(Product::class.java)
                 val result = Resource.Success(product)
                 this@callbackFlow.trySend(Result.success(result))
             } catch (e: Exception) {

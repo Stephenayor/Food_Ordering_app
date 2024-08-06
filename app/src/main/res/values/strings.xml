@@ -25,6 +25,7 @@
     <string name="loading_your_fun_experience">Loading your Fun Experience</string>
     <string name="please_wait_dots">Please wait...</string>
     <string name="uploading_products">Uploading Products</string>
+    <string name="getting_latest_product">Getting Latest Products</string>
     <string name="_autofilled">Your details has been autofilled</string>
     <string name="mssg_continue">Continue</string>
     <string name="proceed">Proceed</string>
@@ -57,4 +58,6 @@
     <string name="the_selected_image">The Selected Image</string>
     <string name="publish_products">Publish Products</string>
     <string name="money_naira_double_format">&#8358;%,.02f</string>
+    <string name="new_arrival">NEW ARRIVAL</string>
+    <string name="new_arrival_product">new_arrival_product</string>
 </resources>
