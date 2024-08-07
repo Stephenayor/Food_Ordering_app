@@ -6,23 +6,22 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.yummy.BR
 import com.example.yummy.R
-import com.example.yummy.core.onboarding.activity.OnboardingActivity
 import com.example.yummy.core.view.IntroSliderActivity
 import com.example.yummy.databinding.ActivityAdminBinding
-import com.example.yummy.databinding.ActivityOnboardingBinding
 import com.example.yummy.utils.base.BaseActivity
+import com.example.yummy.utils.dialogs.NotificationSheetDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AdminActivity : BaseActivity<ActivityAdminBinding>() {
+class AdminActivity : BaseActivity<ActivityAdminBinding>(),
+    NotificationSheetDialog.ActionButtonClickedListener,
+    NotificationSheetDialog.OnButtonsClickListener{
 
 
     override val bindingVariable: Int
@@ -73,5 +72,17 @@ class AdminActivity : BaseActivity<ActivityAdminBinding>() {
         toolbar.setNavigationOnClickListener {
             IntroSliderActivity.start(this)
         }
+    }
+
+    override fun onNotificationActionButtonClicked() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onNegativeClick() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPositiveClick() {
+        TODO("Not yet implemented")
     }
 }

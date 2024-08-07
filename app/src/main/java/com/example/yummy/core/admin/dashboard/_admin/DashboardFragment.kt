@@ -59,7 +59,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
 
                 is Resource.Error -> {
                     hideLoading()
-                    Tools.showToast(requireContext(), "Error Uploading Image to Cloud Storage")
+                    Tools.openSuccessErrorDialog(
+                        requireActivity(),
+                        response.message,
+                        "Failed",
+                        false,
+                        false
+                    )
                 }
 
                 else -> {}

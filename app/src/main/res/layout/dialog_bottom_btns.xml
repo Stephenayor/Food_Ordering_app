@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/btn_parent"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <Button
+        android:id="@+id/btn_continue"
+        style="@style/bottomDialogButtonTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?android:selectableItemBackground"
+        android:text="@string/action_continue"
+        android:textAllCaps="false" />
+
+    <LinearLayout
+        android:id="@+id/parent_view_receipt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/vr_line"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey" />
+
+        <Button
+            android:id="@+id/btn_view_receipt"
+            style="@style/bottomDialogButtonTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            android:text="@string/view_receipt"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+</LinearLayout>

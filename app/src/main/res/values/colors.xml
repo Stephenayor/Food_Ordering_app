@@ -32,6 +32,9 @@
     <color name="yellow">#FFB717</color>>
     <color name="disabled_yellow">#AE8D43</color>
     <color name="colorGoldenYellow">#E8B406</color>
+    <color name="green">#87C700</color>
 
+    //RED
+    <color name="red">#EF5454</color>
 
 </resources>

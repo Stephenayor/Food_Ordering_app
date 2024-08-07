@@ -60,4 +60,6 @@
     <string name="money_naira_double_format">&#8358;%,.02f</string>
     <string name="new_arrival">NEW ARRIVAL</string>
     <string name="new_arrival_product">new_arrival_product</string>
+    <string name="action_continue">Continue</string>
+    <string name="view_receipt">View</string>
 </resources>

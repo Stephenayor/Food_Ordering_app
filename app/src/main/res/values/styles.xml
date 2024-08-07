@@ -127,6 +127,32 @@
         <item name="android:windowSoftInputMode">adjustPan</item>
     </style>
 
+    <style name="bottomDialogTitleTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dialog_title_margin_top</item>
+        <item name="android:fontFamily">@font/khula_bold</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="bottomDialogMessageTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:fontFamily">@font/khula</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="bottomDialogButtonDividerStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">@dimen/spacing_mlarge</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:background">#EAEAEA</item>
+    </style>
+
 
 
 </resources>
