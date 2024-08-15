@@ -26,6 +26,7 @@
     <string name="please_wait_dots">Please wait...</string>
     <string name="uploading_products">Uploading Products</string>
     <string name="getting_latest_product">Getting Latest Products</string>
+    <string name="getting_product">Getting Products</string>
     <string name="_autofilled">Your details has been autofilled</string>
     <string name="mssg_continue">Continue</string>
     <string name="proceed">Proceed</string>
@@ -62,4 +63,7 @@
     <string name="new_arrival_product">new_arrival_product</string>
     <string name="action_continue">Continue</string>
     <string name="view_receipt">View</string>
+    <string name="categories">Categories</string>
+    <string name="account">Account</string>
+    <string name="order_now">Order Now</string>
 </resources>

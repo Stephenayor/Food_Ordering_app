@@ -1,4 +1,4 @@
-package com.example.yummy.core.admin
+package com.example.yummy.core.user
 
 import android.content.Context
 import android.content.Intent
@@ -13,28 +13,22 @@ import com.example.yummy.BR
 import com.example.yummy.R
 import com.example.yummy.core.view.IntroSliderActivity
 import com.example.yummy.databinding.ActivityAdminBinding
+import com.example.yummy.databinding.ActivityUserBinding
 import com.example.yummy.utils.base.BaseActivity
-import com.example.yummy.utils.dialogs.NotificationSheetDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AdminActivity : BaseActivity<ActivityAdminBinding>(),
-    NotificationSheetDialog.ActionButtonClickedListener,
-    NotificationSheetDialog.OnButtonsClickListener{
-
-
+class UserActivity : BaseActivity<ActivityUserBinding>() {
     override val bindingVariable: Int
         get() = BR._all
     override val layoutId: Int
-        get() = R.layout.activity_admin
+        get() = R.layout.activity_user
 
     companion object {
-        private var IS_FOR_LOGIN_FRAGMENT =
-            Companion::class.java.canonicalName?.plus("IS_FOR_LOGIN_FRAGMENT")
 
         fun start(context: Context) {
-            val starter = Intent(context, AdminActivity::class.java)
+            val starter = Intent(context, UserActivity::class.java)
             val bundle = Bundle()
             starter.putExtras(bundle)
             context.startActivity(starter)
@@ -44,8 +38,9 @@ class AdminActivity : BaseActivity<ActivityAdminBinding>(),
     override val toolbarTitle: Int
         get() = R.string.yummy
 
+
     override fun initComponents() {
-        val binding: ActivityAdminBinding = getViewDataBinding()
+        val binding: ActivityUserBinding = getViewDataBinding()
         setupToolbar()
         val navView: BottomNavigationView = binding.bottomNavigation
 
@@ -55,13 +50,6 @@ class AdminActivity : BaseActivity<ActivityAdminBinding>(),
 
         navView.setupWithNavController(navController)
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-
 
     private fun setupToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -74,15 +62,8 @@ class AdminActivity : BaseActivity<ActivityAdminBinding>(),
         }
     }
 
-    override fun onNotificationActionButtonClicked() {
-        finish()
-    }
-
-    override fun onNegativeClick() {
-        finish()
-    }
-
-    override fun onPositiveClick() {
-      finish()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }

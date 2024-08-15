@@ -2,10 +2,17 @@ package com.example.yummy.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.fragment.app.Fragment
+import androidx.room.Room
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.example.yummy.core.admin.home.adapter.HomeFragmentProductsAdapter
+import com.example.yummy.core.user.home.adapter.UserHomeFragmentsProductAdapter
 import com.example.yummy.data.repository.AddProductsRepository
 import com.example.yummy.data.repository.SignupLoginRepository
+import com.example.yummy.data.repository.database.ProductDao
+import com.example.yummy.data.repository.database.YummyDatabase
+import com.example.yummy.data.repository.model.Product
 import com.example.yummy.di.module.ViewModelFactoryModule
 import com.example.yummy.utils.AppConstants
 import com.google.firebase.Firebase
@@ -74,17 +81,51 @@ object AppModule {
     }
 
     @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext context: Context): YummyDatabase {
+        return Room.databaseBuilder(
+            context.applicationContext,
+            YummyDatabase::class.java,
+            "yummy_database"
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductDao(appDatabase: YummyDatabase): ProductDao {
+        return appDatabase.productDao()
+    }
+
+    @Provides
     fun provideAddProductsRepository(
         firebaseStorage: FirebaseStorage,
         firebaseFirestore: FirebaseFirestore,
         context: Context,
+        productDao: ProductDao
     ): AddProductsRepository {
-        return AddProductsRepository(firebaseStorage, firebaseFirestore, context)
+        return AddProductsRepository(firebaseStorage, firebaseFirestore, context, productDao)
     }
 
     @Provides
     fun provideViewModelFactoryModule(): KClass<ViewModelFactoryModule> {
         return ViewModelFactoryModule::class
     }
+
+    @Provides
+    fun provideHomeFragmentProductsAdapter(
+        @ApplicationContext context: Context
+    ): HomeFragmentProductsAdapter {
+        return HomeFragmentProductsAdapter(context)
+    }
+
+    @Provides
+    fun provideUserHomeFragmentProductsAdapter(
+        @ApplicationContext context: Context
+    ): UserHomeFragmentsProductAdapter {
+        return UserHomeFragmentsProductAdapter(context)
+    }
+
 
 }

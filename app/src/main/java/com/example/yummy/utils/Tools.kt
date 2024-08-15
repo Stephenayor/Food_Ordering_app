@@ -6,10 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.text.BoringLayout
 import android.util.Base64
 import android.util.Log
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
@@ -99,6 +97,13 @@ class Tools {
             return String.format(
                 Locale.US, context.resources.getString(R.string.money_naira_double_format),
                 amount.toDouble()
+            )
+        }
+
+        fun formatToCommaNaira(context: Context, amount: Double): String {
+            return String.format(
+                context.resources.configuration.locale,
+                context.getString(R.string.money_naira_double_format), amount
             )
         }
 

@@ -1,6 +1,5 @@
-package com.example.yummy.core.admin.dashboard._admin.viewmodel
+package com.example.yummy.core.admin.home.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,27 +13,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val addProductsRepository: AddProductsRepository
 ) : ViewModel() {
 
-    private val _getProductsResponse = MutableLiveData<Resource<Product>?>()
-    val getProductsResponse: MutableLiveData<Resource<Product>?> = _getProductsResponse
+    private val _getAllAvailableProductsResponse = MutableLiveData<Resource<Product>?>()
+    val getAllAvailableProductsResponse: MutableLiveData<Resource<Product>?> = _getAllAvailableProductsResponse
+
+    private val _getAllAvailableProductsFromDB = MutableLiveData<Resource<ProductsEntity>?>()
+    val getAllAvailableProductsFromDB: MutableLiveData<Resource<ProductsEntity>?> = _getAllAvailableProductsFromDB
 
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun getProducts() {
-        _getProductsResponse.postValue(Resource.Loading())
+    fun getAllProducts() {
+        _getAllAvailableProductsResponse.postValue(Resource.Loading())
 
         viewModelScope.launch {
             addProductsRepository.getProductsFromFireStoreDatabase().collect {
                 when {
                     it.isSuccess -> {
-                        _getProductsResponse.postValue(it.getOrNull())
+                        _getAllAvailableProductsResponse.postValue(it.getOrNull())
                     }
                     it.isFailure -> {
-                        _getProductsResponse.postValue(it.getOrNull())
+                        _getAllAvailableProductsResponse.postValue(it.getOrNull())
                     }
                 }
             }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/navigation_user_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home"
+        />
+    <item
+        android:id="@+id/navigation_categories"
+        android:icon="@drawable/categorization"
+        android:title="@string/categories" />
+    <item
+        android:id="@+id/navigation_user_orders"
+        android:icon="@drawable/completed_orders"
+        android:title="@string/orders" />
+    <item
+        android:id="@+id/navigation_user_account"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/account" />
+</menu>

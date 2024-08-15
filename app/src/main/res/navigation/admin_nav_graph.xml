@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.yummy.core.admin.fragment.HomeFragment"
+        android:name="com.example.yummy.core.admin.home.fragment.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"/>
     <fragment

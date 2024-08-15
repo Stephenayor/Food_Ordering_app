@@ -6,7 +6,6 @@ import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
@@ -14,10 +13,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.yummy.R
 import com.example.yummy.core.admin.AdminActivity
 import com.example.yummy.core.login.viewmodel.LoginViewModel
-import com.example.yummy.core.onboarding.SignUpFragmentDirections
+import com.example.yummy.core.user.UserActivity
 import com.example.yummy.databinding.FragmentLoginBinding
 import com.example.yummy.utils.AppConstants
-import com.example.yummy.utils.NavigateTo
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
@@ -25,13 +23,10 @@ import com.example.yummy.utils.dialogs.ProgressDialogFragment.Companion.TAG
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -81,8 +76,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
         if (currentUser != null && isAdmin) {
             AdminActivity.start(requireActivity())
-        } else {
-            AdminActivity.start(requireActivity())
+        } else if (currentUser != null){
+            UserActivity.start(requireActivity())
         }
     }
 
@@ -140,8 +135,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 if (isAdmin != null) {
                     AdminActivity.start(requireContext())
                 } else {
-                    // Handle the case where "isAdmin" is null
-                    Tools.showToast(requireActivity(), "User Activity!")
+                    UserActivity.start(requireActivity())
                 }
             } else {
                 println("No such document")
@@ -158,7 +152,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             cloudFireStore.collection(AppConstants.USERS).document(uid).get()
                 .addOnSuccessListener { document ->
                     if (!document.exists()) {
-                        saveUserToFirestore(email, uid, name)
+                        saveUserToFireStore(email, uid, name)
                     } else {
                         Log.d(TAG, "User already exists")
                     }
@@ -169,7 +163,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
     }
 
-    private fun saveUserToFirestore(email: String, uid: String, name: String?) {
+    private fun saveUserToFireStore(email: String, uid: String, name: String?) {
         val userDetails = HashMap<String, Any>()
         userDetails["UserEmail"] = email
         userDetails["UserName"] = email.substringBefore("@")

@@ -12,12 +12,18 @@ import com.example.yummy.databinding.FragmentDashboardBinding
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
     private lateinit var binding: FragmentDashboardBinding
     private val dashboardViewModel by viewModels<DashboardViewModel>()
+    @Inject
+    lateinit var firebaseAuth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +48,16 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
 
         dashboardViewModel.getProducts()
         subscribeToLiveData()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.apply {
+            productNameText.setOnClickListener {
+                Firebase.auth.signOut()
+                requireActivity().finish()
+            }
+        }
     }
 
     private fun subscribeToLiveData() {
@@ -59,13 +75,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
 
                 is Resource.Error -> {
                     hideLoading()
-                    Tools.openSuccessErrorDialog(
-                        requireActivity(),
-                        response.message,
-                        "Failed",
-                        false,
-                        false
-                    )
+//                    Tools.openSuccessErrorDialog(
+//                        requireActivity(),
+//                        response.message,
+//                        "Failed",
+//                        false,
+//                        false
+//                    )
                 }
 
                 else -> {}

@@ -11,10 +11,12 @@
     <dimen name="dialog_margin_top">32dp</dimen>
     <dimen name="dialog_title_margin_top">48dp</dimen>
     <dimen name="dimen_12">@dimen/chef</dimen>
+    <dimen name="dimen_16">16dp</dimen>
     <dimen name="chef">12dp</dimen>
     <dimen name="dimen_15">15dp</dimen>
     <dimen name="validation_action_size">14sp</dimen>
     <dimen name="spacing_xxxlarge">55dp</dimen>
     <dimen name="spacing_xxlarge">50dp</dimen>
     <dimen name="spacing_smlarge">18dp</dimen>
+    <dimen name="_10sdp">10.00dp</dimen>
 </resources>
