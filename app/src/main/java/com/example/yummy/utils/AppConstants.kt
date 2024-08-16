@@ -10,6 +10,7 @@ object AppConstants {
     const val GENERIC_ERROR_MSG = "An error has occurred, please try again later"
     const val ENCRYPTED_PREF_NAME = "encrypted_prefs"
     const val LOGIN_UID = "LOGIN_UID"
+    const val ADMIN_USER = "ADMIN_USER"
     const val TEST_ADMIN_MAIL = "akinwunmiayomide6@gmail.com"
     const val APPLICATION_ID = "com.example.yummy"
     //File names

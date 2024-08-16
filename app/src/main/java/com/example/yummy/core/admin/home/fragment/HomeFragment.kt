@@ -73,12 +73,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun showProducts(product: Product?) {
-        homeFragmentProductsAdapter.submitList(listOf(product))
+    private fun showProducts(product: List<Product>?) {
+        homeFragmentProductsAdapter.submitList(product)
     }
 
     private fun setupProductsAdapter() {
-        val numberOfColumns = 3
+        val numberOfColumns = 2
         val layoutManager = GridLayoutManager(requireContext(), numberOfColumns)
         layoutManager.orientation = RecyclerView.HORIZONTAL
         productsRecyclerView.layoutManager = layoutManager

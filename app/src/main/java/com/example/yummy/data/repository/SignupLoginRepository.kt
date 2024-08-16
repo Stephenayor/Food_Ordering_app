@@ -133,8 +133,16 @@ class SignupLoginRepository @Inject constructor(
         encryptedPrefs.edit().putString(key, value).apply()
     }
 
+    fun saveIsAdmin(key: String, isAdmin: Boolean) {
+        encryptedPrefs.edit().putBoolean(key, isAdmin).apply()
+    }
+
     fun getLoginUID(key: String): String? {
         return encryptedPrefs.getString(key, null)
+    }
+
+    fun getIsAdmin(key: String): Boolean {
+        return encryptedPrefs.getBoolean(key, false)
     }
 
 

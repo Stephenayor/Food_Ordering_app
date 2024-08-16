@@ -7,8 +7,11 @@ import com.example.yummy.data.repository.database.ProductDao
 import com.example.yummy.data.repository.model.Product
 import com.example.yummy.data.repository.model.local.ProductsEntity
 import com.example.yummy.utils.AppConstants
+import com.example.yummy.utils.AppConstants.PRODUCT
+import com.example.yummy.utils.AppConstants.PRODUCT_ID
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -24,6 +27,7 @@ import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject
 
+
 class AddProductsRepository @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val firebaseFireStore: FirebaseFirestore,
@@ -32,7 +36,8 @@ class AddProductsRepository @Inject constructor(
 ) {
     private val job = Job()
     private val scope = CoroutineScope(Dispatchers.IO + job)
-    private lateinit var foodProducts: Product
+    private lateinit var foodProducts: List<Product>
+    private lateinit var firebaseAuth: FirebaseAuth
 
 
     @ExperimentalCoroutinesApi
@@ -62,7 +67,7 @@ class AddProductsRepository @Inject constructor(
                 productDetails["productImage"] = downloadUrl
                 productDetails["productName"] = productName
                 productDetails["productPrice"] = price
-                firebaseFireStore.collection(AppConstants.PRODUCT).document(AppConstants.PRODUCT_ID)
+                firebaseFireStore.collection(PRODUCT).document()
                     .set(productDetails)
                     .await()
                 val item = Resource.Success(true)
@@ -73,25 +78,34 @@ class AddProductsRepository @Inject constructor(
                 this@callbackFlow.trySend(Result.success(error))
             }
             awaitClose {}
+
         }
 
     @ExperimentalCoroutinesApi
-    suspend fun getProductsFromFireStoreDatabase() =
+    suspend fun getLatestProductsFromFireStoreDatabase() =
         callbackFlow<Result<Resource<Product>>> {
             try {
                 val fireStoreDocumentReference =
                     firebaseFireStore.collection(AppConstants.PRODUCT)
-                        .document("6aaf97cd-4245-470a-80a4-401f3674bd19")
+                        .document(PRODUCT_ID)
                         .get()
                         .await()
                 val product = fireStoreDocumentReference.toObject(Product::class.java)
                 if (product != null) {
-                    // Save the product in the room database and then fetch the saved product
+                    // Save the product in the room database and fetch the saved product
                     withContext(Dispatchers.IO) {
-                        saveProductsInDB(product)
+                        saveProductsInDB(listOf(product))
                         getProductsFromDB().collect { productsEntity ->
-                            foodProducts = productsEntity.toProduct()
-                            val result = Resource.Success(foodProducts)
+                            foodProducts = productsEntity.toProductList()
+                            val result = Resource.Success(foodProducts[0])
+                            this@callbackFlow.trySend(Result.success(result))
+                        }
+                    }
+                } else {
+                    getProductsFromDB().collect { productsEntity ->
+                        foodProducts = productsEntity.toProductList()
+                        if (foodProducts[0].productName.isNotEmpty()) {
+                            val result = Resource.Success(foodProducts[0])
                             this@callbackFlow.trySend(Result.success(result))
                         }
                     }
@@ -109,6 +123,42 @@ class AddProductsRepository @Inject constructor(
             awaitClose {}
         }
 
+    @ExperimentalCoroutinesApi
+    suspend fun getAllProductsFromFireStore() =
+        callbackFlow<Result<Resource<List<Product>>>> {
+            val productsList: MutableList<Product> = ArrayList()
+            try {
+                val fireStoreDocumentReference =
+                    firebaseFireStore.collection(PRODUCT)
+                        .get()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                for (document in task.result) {
+                                    val product = document.toObject(Product::class.java)
+                                    productsList.add(product)
+                                }
+                            }
+                        }
+                        .await()
+                withContext(Dispatchers.IO) {
+                    saveProductsInDB(productsList.toList())
+                    getProductsFromDB().collect { productsEntity ->
+                        foodProducts = productsEntity.toProductList()
+                        val result = Resource.Success(foodProducts)
+                        this@callbackFlow.trySend(Result.success(result))
+                    }
+                }
+            } catch (e: Exception) {
+                Tools.showToast(context, "getting products from Firestore Failed")
+                val nullData: List<Product>? = null
+                val error = Resource.Error(e.localizedMessage, nullData)
+                Log.d("errorMessage", e.localizedMessage.toString())
+                this@callbackFlow.trySend(Result.success(error))
+            }
+            awaitClose {}
+        }
+
+
     private fun Product.toProductEntity(): ProductsEntity {
         return ProductsEntity(
             productImage = this.productImage,
@@ -116,6 +166,17 @@ class AddProductsRepository @Inject constructor(
             productPrice = this.productPrice
         )
     }
+
+    private fun List<Product>.toProductEntityList(): List<ProductsEntity> {
+        return this.map { product ->
+            ProductsEntity(
+                productImage = product.productImage,
+                productName = product.productName,
+                productPrice = product.productPrice
+            )
+        }
+    }
+
 
     private fun ProductsEntity.toProduct(): Product {
         return Product(
@@ -125,13 +186,23 @@ class AddProductsRepository @Inject constructor(
         )
     }
 
-
-    private suspend fun saveProductsInDB(product: Product) {
-        val productEntity = product.toProductEntity()
-        productDao.insertProducts((listOf(productEntity)))
+    private fun List<ProductsEntity>.toProductList(): List<Product> {
+        return this.map { product ->
+            Product(
+                productImage = product.productImage,
+                productName = product.productName,
+                productPrice = product.productPrice
+            )
+        }
     }
 
-    private fun getProductsFromDB(): Flow<ProductsEntity> {
+
+    private suspend fun saveProductsInDB(product: List<Product>) {
+        val productEntity = product.toProductEntityList()
+        productDao.insertProducts((productEntity))
+    }
+
+    private fun getProductsFromDB(): Flow<List<ProductsEntity>> {
         return productDao.getAllProducts()
     }
 

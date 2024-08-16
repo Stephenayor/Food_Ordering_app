@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface ProductDao {
 
     @Query("SELECT * FROM products")
-     fun getAllProducts(): Flow<ProductsEntity>
+     fun getAllProducts(): Flow<List<ProductsEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProducts(products: List<ProductsEntity>)

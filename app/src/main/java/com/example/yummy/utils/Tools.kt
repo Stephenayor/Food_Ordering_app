@@ -20,6 +20,7 @@ import com.example.yummy.utils.dialogs.ProgressDialogFragment
 import java.io.ByteArrayOutputStream
 import java.math.BigDecimal
 import java.util.Locale
+import java.util.UUID
 
 class Tools {
 
@@ -151,5 +152,8 @@ class Tools {
                 vibrator.vibrate(200)
             }
         }
+
+         fun getRandomUID() : UUID = UUID.randomUUID()
+
     }
 }

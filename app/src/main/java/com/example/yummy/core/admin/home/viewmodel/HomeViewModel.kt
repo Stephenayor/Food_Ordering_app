@@ -17,12 +17,8 @@ class HomeViewModel @Inject constructor(
     private val addProductsRepository: AddProductsRepository
 ) : ViewModel() {
 
-    private val _getAllAvailableProductsResponse = MutableLiveData<Resource<Product>?>()
-    val getAllAvailableProductsResponse: MutableLiveData<Resource<Product>?> = _getAllAvailableProductsResponse
-
-    private val _getAllAvailableProductsFromDB = MutableLiveData<Resource<ProductsEntity>?>()
-    val getAllAvailableProductsFromDB: MutableLiveData<Resource<ProductsEntity>?> = _getAllAvailableProductsFromDB
-
+    private val _getAllAvailableProductsResponse = MutableLiveData<Resource<List<Product>>?>()
+    val getAllAvailableProductsResponse: MutableLiveData<Resource<List<Product>>?> = _getAllAvailableProductsResponse
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -30,7 +26,7 @@ class HomeViewModel @Inject constructor(
         _getAllAvailableProductsResponse.postValue(Resource.Loading())
 
         viewModelScope.launch {
-            addProductsRepository.getProductsFromFireStoreDatabase().collect {
+            addProductsRepository.getAllProductsFromFireStore().collect {
                 when {
                     it.isSuccess -> {
                         _getAllAvailableProductsResponse.postValue(it.getOrNull())

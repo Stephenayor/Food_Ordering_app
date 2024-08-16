@@ -63,9 +63,16 @@ class LoginViewModel@Inject constructor(
     fun saveLoginUID(key: String, value: String) {
         signupLoginRepository.saveLoginUID(key, value)
     }
+    fun saveIsAdmin(key: String, isAdmin: Boolean) {
+        signupLoginRepository.saveIsAdmin(key, isAdmin)
+    }
 
     fun getLoginUID(key: String): String? {
         return signupLoginRepository.getLoginUID(key)
+    }
+
+    fun getIsAdmin(key: String): Boolean {
+        return signupLoginRepository.getIsAdmin(key)
     }
 
 

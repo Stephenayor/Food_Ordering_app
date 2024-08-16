@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -51,50 +53,56 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
         super.onViewCreated(view, savedInstanceState)
         imageView = binding.selectedImageView
 
-//        val takePictureLauncher = registerForActivityResult(
-//            ActivityResultContracts.TakePicture()
-//        ) { isSuccessful ->
-//            if (isSuccessful) {
-//                imagePickerHelper?.processImage(
-//                    Activity.RESULT_OK,
-//                    ImagePickerHelper.REQUEST_IMAGE_CAPTURE,
-//                    null
-//                )
-//            }
-//        }
-//
-//        val someActivityResultLauncher = registerForActivityResult(
-//            ActivityResultContracts.StartActivityForResult()
-//        ) { result ->
-//            imagePickerHelper?.processImage(
-//                result.resultCode,
-//                ImagePickerHelper.LOAD_GALLERY,
-//                result.data
-//            )
-//        }
-
-//        imagePickerHelper =
-//            ImagePickerHelper(requireActivity(), someActivityResultLauncher, takePictureLauncher)
-
         setClickListeners()
         subscribeToLiveData()
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            enableDisableButton()
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+
+        }
+    }
+
+    private val priceTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            enableDisableButton()
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+
+        }
     }
 
     private fun subscribeToLiveData() {
         addProductViewModel.cloudStorageResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
-
+                    binding.progressCircular.visibility = View.VISIBLE
                 }
 
                 is Resource.Success -> {
                     hideLoading()
+                    binding.progressCircular.visibility = View.GONE
                     Tools.showToast(requireContext(), "Image Upload Successful")
                     imageUriOnFirebaseStorage = response.data
+                    enableDisableButton()
                 }
 
                 is Resource.Error -> {
                     hideLoading()
+                    binding.progressCircular.visibility = View.GONE
                     Tools.showToast(requireContext(), "Error Uploading Image to Cloud Storage")
                 }
 
@@ -119,6 +127,7 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
                                 NavigateTo.ADMIN_DASHBOARD.toString()
                             )
                         findNavController().navigate(action)
+                        requireActivity().supportFragmentManager.popBackStack()
                     }
                 }
 
@@ -145,18 +154,17 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
         }
 
         binding.btnPublishProducts.setOnClickListener {
-            if (binding.productNameEditTextField.text?.isNotEmpty() == true &&
-                binding.productPriceEditTextField.text?.isNotEmpty() == true
-                && imageUri != null
-            ) {
-                addProductViewModel.uploadProductsOnFireStore(
-                    imageUriOnFirebaseStorage!!, binding.productNameEditTextField.text.toString(),
-                    binding.productPriceEditTextField.text.toString().toDouble()
-                )
-            } else {
-                Tools.showToast(requireContext(), "Please Fill All Details/ReUpload Selected Image")
-            }
+
+            addProductViewModel.uploadProductsOnFireStore(
+                imageUriOnFirebaseStorage!!, binding.productNameEditTextField.text.toString(),
+                binding.productPriceEditTextField.text.toString().toDouble()
+            )
         }
+//            Tools.showToast(requireContext(), "Please Fill All Details/ReUpload Selected Image")
+
+
+        binding.productNameEditTextField.addTextChangedListener(textWatcher)
+        binding.productPriceEditTextField.addTextChangedListener(priceTextWatcher)
     }
 
     @Deprecated("Deprecated in Java")
@@ -185,6 +193,13 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
         intent.putExtra(ImageSelectActivity.FLAG_GALLERY, true)
         intent.putExtra(ImageSelectActivity.FLAG_CROP, false)
         startActivityForResult(intent, 1213)
+    }
+
+    private fun enableDisableButton() {
+        binding.btnPublishProducts.isEnabled =
+            binding.productNameEditTextField.text?.isNotEmpty() == true &&
+                    binding.productPriceEditTextField.text?.isNotEmpty() == true
+                    && imageUriOnFirebaseStorage != null
     }
 
     companion object {

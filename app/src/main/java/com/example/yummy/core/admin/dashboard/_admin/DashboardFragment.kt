@@ -46,7 +46,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
             findNavController().navigate(action)
         }
 
-        dashboardViewModel.getProducts()
+        dashboardViewModel.getLatestProduct()
         subscribeToLiveData()
         initListeners()
     }
@@ -61,7 +61,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
     }
 
     private fun subscribeToLiveData() {
-        dashboardViewModel.getProductsResponse.observe(viewLifecycleOwner) { response ->
+        dashboardViewModel.getLatestProductResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Loading -> {
                     showLoading(R.string.getting_latest_product, R.string.please_wait_dots)
@@ -75,13 +75,13 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
 
                 is Resource.Error -> {
                     hideLoading()
-//                    Tools.openSuccessErrorDialog(
-//                        requireActivity(),
-//                        response.message,
-//                        "Failed",
-//                        false,
-//                        false
-//                    )
+                    Tools.openSuccessErrorDialog(
+                        requireActivity(),
+                        response.message,
+                        "Failed",
+                        false,
+                        false
+                    )
                 }
 
                 else -> {}

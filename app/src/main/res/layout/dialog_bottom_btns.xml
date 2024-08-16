@@ -13,6 +13,7 @@
         android:layout_weight="1"
         android:background="?android:selectableItemBackground"
         android:text="@string/action_continue"
+        android:fontFamily="@font/khula"
         android:textAllCaps="false" />
 
     <LinearLayout
@@ -35,6 +36,7 @@
             android:layout_height="wrap_content"
             android:background="?android:selectableItemBackground"
             android:text="@string/view_receipt"
+            android:fontFamily="@font/khula"
             android:textAllCaps="false" />
     </LinearLayout>
 

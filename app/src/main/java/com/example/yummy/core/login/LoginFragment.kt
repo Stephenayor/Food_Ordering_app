@@ -16,6 +16,8 @@ import com.example.yummy.core.login.viewmodel.LoginViewModel
 import com.example.yummy.core.user.UserActivity
 import com.example.yummy.databinding.FragmentLoginBinding
 import com.example.yummy.utils.AppConstants
+import com.example.yummy.utils.AppConstants.ADMIN_USER
+import com.example.yummy.utils.AppConstants.LOGIN_UID
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
@@ -65,18 +67,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        val uid = loginViewModel.getLoginUID(AppConstants.LOGIN_UID)
+        val uid = loginViewModel.getLoginUID(LOGIN_UID)
+        isAdmin = loginViewModel.getIsAdmin(ADMIN_USER)
         val currentUser = firebaseAuth.currentUser
         val documentReference =
             cloudFireStore.collection(AppConstants.USERS).document(uid.toString())
         documentReference.get().addOnSuccessListener {
-            if (it.get("isAdmin") != null) {
+            if (it.get("isAdmin")?.equals(1) == true) {
                 isAdmin = true
             }
         }
         if (currentUser != null && isAdmin) {
             AdminActivity.start(requireActivity())
-        } else if (currentUser != null){
+        } else if (currentUser != null) {
             UserActivity.start(requireActivity())
         }
     }
@@ -134,6 +137,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 val isAdmin = document.get("isAdmin")
                 if (isAdmin != null) {
                     AdminActivity.start(requireContext())
+                    loginViewModel.saveIsAdmin(AppConstants.ADMIN_USER, true)
                 } else {
                     UserActivity.start(requireActivity())
                 }

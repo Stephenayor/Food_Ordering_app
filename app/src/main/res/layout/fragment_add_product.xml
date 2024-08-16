@@ -110,6 +110,14 @@
             app:layout_constraintStart_toStartOf="parent"
             android:contentDescription="@string/the_selected_image" />
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_circular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selected_image_view"
+            tools:visibility="visible"/>
+
         <Button
             android:id="@+id/btn_publish_products"
             android:layout_width="match_parent"
@@ -121,7 +129,10 @@
             android:textAlignment="gravity"
             android:layout_marginBottom="30dp"
             android:radius="@dimen/padding_10"
-            android:backgroundTint="@color/light_blue"
+            android:textAllCaps="false"
+
+            android:textColor="@color/white"
+            android:background="@drawable/button"
             android:text="@string/publish_products" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

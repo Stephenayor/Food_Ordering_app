@@ -12,7 +12,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.text.HtmlCompat
 import com.example.yummy.R
 import com.example.yummy.utils.Tools
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -114,6 +113,24 @@ class NotificationSheetDialog() : BottomSheetDialogFragment() {
                 imageView,
                 R.drawable.ic_warning_white_24dp
             )
+        }
+
+        bottomButton.leftButton.setOnClickListener {
+            onButtonsClickListener!!.onNegativeClick()
+            dismiss()
+        }
+
+        bottomButton.positiveBtn.setOnClickListener {
+            if (onButtonsClickListener != null) {
+                onButtonsClickListener!!.onPositiveClick()
+            }
+            dismiss()
+        }
+
+        bottomButton.setNegativeClickListener {
+        if (callback != null) {
+            callback!!.onNotificationActionButtonClicked()
+        }
         }
     }
 
