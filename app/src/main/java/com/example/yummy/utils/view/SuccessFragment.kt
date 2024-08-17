@@ -45,7 +45,6 @@ class SuccessFragment : BaseFragment<FragmentSuccessBinding>() {
             }
             if (args.whereToNaviagateText?.equals(NavigateTo.ADMIN_DASHBOARD.toString()) == true) {
                 AdminActivity.start(requireContext())
-                requireActivity().supportFragmentManager.popBackStack()
 //                val action = SuccessFragmentDirections.actionSuccessFragmentToDashboardFragment()
 //                findNavController().navigate(action)
             }

@@ -49,6 +49,7 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
     }
 
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         imageView = binding.selectedImageView
@@ -127,7 +128,7 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
                                 NavigateTo.ADMIN_DASHBOARD.toString()
                             )
                         findNavController().navigate(action)
-                        requireActivity().supportFragmentManager.popBackStack()
+//                        requireActivity().supportFragmentManager.popBackStack()
                     }
                 }
 

@@ -110,9 +110,6 @@ class AddProductsRepository @Inject constructor(
                         }
                     }
                 }
-
-//                val result = Resource.Success(products)
-//                this@callbackFlow.trySend(Result.success(result))
             } catch (e: Exception) {
                 Tools.showToast(context, "getting products from Firestore Failed")
                 val nullData: Product? = null
@@ -128,18 +125,17 @@ class AddProductsRepository @Inject constructor(
         callbackFlow<Result<Resource<List<Product>>>> {
             val productsList: MutableList<Product> = ArrayList()
             try {
-                val fireStoreDocumentReference =
-                    firebaseFireStore.collection(PRODUCT)
-                        .get()
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                for (document in task.result) {
-                                    val product = document.toObject(Product::class.java)
-                                    productsList.add(product)
-                                }
+                firebaseFireStore.collection(PRODUCT)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            for (document in task.result) {
+                                val product = document.toObject(Product::class.java)
+                                productsList.add(product)
                             }
                         }
-                        .await()
+                    }
+                    .await()
                 withContext(Dispatchers.IO) {
                     saveProductsInDB(productsList.toList())
                     getProductsFromDB().collect { productsEntity ->

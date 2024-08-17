@@ -25,6 +25,8 @@
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
+    <style name="ThemeOverlay.AppCompat.Light" parent="Base.ThemeOverlay.AppCompat.Light"/>
+
 
     <style name="radioRealButtonStyle">
         <item name="rrb_textSize">12sp</item>

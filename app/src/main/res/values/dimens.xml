@@ -19,4 +19,5 @@
     <dimen name="spacing_xxlarge">50dp</dimen>
     <dimen name="spacing_smlarge">18dp</dimen>
     <dimen name="_10sdp">10.00dp</dimen>
+    <dimen name="profile_height">60dp</dimen>
 </resources>

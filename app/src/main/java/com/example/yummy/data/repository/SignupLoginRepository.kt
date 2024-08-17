@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import com.example.yummy.R
 import com.example.yummy.utils.AppConstants
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
@@ -58,14 +57,20 @@ class SignupLoginRepository @Inject constructor(
                                 }
                         } else {
                             Log.d(ContentValues.TAG, "createUserWithEmail:failure", task.exception)
-                            val nullData : FirebaseUser? = null
-                            val firebaseAuthenticationErrorMessage = Resource.Error(task.exception?.localizedMessage, nullData)
-                            this@callbackFlow.trySend(Result.success(firebaseAuthenticationErrorMessage))
+                            val nullData: FirebaseUser? = null
+                            val firebaseAuthenticationErrorMessage =
+                                Resource.Error(task.exception?.localizedMessage, nullData)
+                            this@callbackFlow.trySend(
+                                Result.success(
+                                    firebaseAuthenticationErrorMessage
+                                )
+                            )
                         }
                     }
-            } else{
-                val nullData : FirebaseUser? = null
-                val firebaseAuthenticationErrorMessage = Resource.Error(AppConstants.GENERIC_ERROR_MSG, nullData)
+            } else {
+                val nullData: FirebaseUser? = null
+                val firebaseAuthenticationErrorMessage =
+                    Resource.Error(AppConstants.GENERIC_ERROR_MSG, nullData)
                 this@callbackFlow.trySend(Result.success(firebaseAuthenticationErrorMessage))
             }
 
@@ -88,14 +93,16 @@ class SignupLoginRepository @Inject constructor(
                             this@callbackFlow.trySend(Result.success(item))
                         } else {
                             Log.d(ContentValues.TAG, "signInWithEmail:failure", task.exception)
-                            val nullData : FirebaseUser? = null
-                            val firebaseLoginErrorMessage = Resource.Error(task.exception?.localizedMessage, nullData)
+                            val nullData: FirebaseUser? = null
+                            val firebaseLoginErrorMessage =
+                                Resource.Error(task.exception?.localizedMessage, nullData)
                             this@callbackFlow.trySend(Result.success(firebaseLoginErrorMessage))
                         }
                     }
-            } else{
-                val nullData : FirebaseUser? = null
-                val firebaseLoginErrorMessage = Resource.Error(AppConstants.GENERIC_ERROR_MSG, nullData)
+            } else {
+                val nullData: FirebaseUser? = null
+                val firebaseLoginErrorMessage =
+                    Resource.Error(AppConstants.GENERIC_ERROR_MSG, nullData)
                 this@callbackFlow.trySend(Result.success(firebaseLoginErrorMessage))
             }
 
@@ -105,29 +112,47 @@ class SignupLoginRepository @Inject constructor(
         }
 
 
-
     @ExperimentalCoroutinesApi
     fun firebaseAuthenticationWithGoogleAccount(idToken: String?) =
         callbackFlow<Result<Resource<FirebaseUser>>> {
-        val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-        firebaseAuth.signInWithCredential(firebaseCredential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = firebaseAuth.currentUser
-                    Tools.showToast(context, user?.email)
-                    val item = Resource.Success(user)
-                    this@callbackFlow.trySend(Result.success(item))
-                } else {
-                    Tools.showToast(context, "Login Failed")
-                    val nullData : FirebaseUser? = null
-                    val firebaseGoogleLoginErrorMessage = Resource.Error(task.exception?.localizedMessage, nullData)
-                    this@callbackFlow.trySend(Result.success(firebaseGoogleLoginErrorMessage))
+            val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+            firebaseAuth.signInWithCredential(firebaseCredential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        val user = firebaseAuth.currentUser
+                        Tools.showToast(context, user?.email)
+                        val item = Resource.Success(user)
+                        this@callbackFlow.trySend(Result.success(item))
+                    } else {
+                        Tools.showToast(context, "Login Failed")
+                        val nullData: FirebaseUser? = null
+                        val firebaseGoogleLoginErrorMessage =
+                            Resource.Error(task.exception?.localizedMessage, nullData)
+                        this@callbackFlow.trySend(Result.success(firebaseGoogleLoginErrorMessage))
+                    }
                 }
+
+            awaitClose {}
+        }
+
+    @ExperimentalCoroutinesApi
+    suspend fun signOut() =
+        callbackFlow<Result<Resource<Boolean>>> {
+            try {
+                val user = firebaseAuth.signOut()
+                val result = Resource.Success(true)
+                this@callbackFlow.trySend(Result.success(result))
+            }catch (e: Exception){
+                val error = Resource.Error(e.localizedMessage, false)
+                this@callbackFlow.trySend(Result.success(error))
             }
 
             awaitClose {}
-    }
+        }
+
+
+
 
     fun saveLoginUID(key: String, value: String) {
         encryptedPrefs.edit().putString(key, value).apply()
@@ -146,7 +171,6 @@ class SignupLoginRepository @Inject constructor(
     }
 
 
-
     fun sampleFlow(userEmail: String, password: String): Flow<String> {
         val stringFlow: Flow<String> = flow {
             emit("Hello")
@@ -158,32 +182,6 @@ class SignupLoginRepository @Inject constructor(
         return stringFlow
     }
 
-
-//    suspend fun executeOnboard(
-//        userEmail: String,
-//        password: String
-//    ): Flow<Resource<FirebaseUser>> {
-//        var result: FirebaseUser? = null
-//        var errorMessage: Exception? = null
-//        return flow {
-//            try {
-//                firebaseAuthentication = firebaseAuth
-//                firebaseAuthentication.createUserWithEmailAndPassword(
-//                    userEmail,
-//                    password
-//                )
-//                    .addOnCompleteListener { task ->
-//                        if (task.isSuccessful) {
-//                            result = firebaseAuthentication.currentUser!!
-//                        }
-//                    }
-//                emit(Resource.Success(result))
-//            } catch (e: Exception) {
-//                emit(Resource.Error("Unable to Create Account"))
-//            }
-//
-//    }
-//    }
 
 }
 

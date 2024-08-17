@@ -25,6 +25,7 @@
     <string name="loading_your_fun_experience">Loading your Fun Experience</string>
     <string name="please_wait_dots">Please wait...</string>
     <string name="uploading_products">Uploading Products</string>
+    <string name="signing_out">Signing out</string>
     <string name="getting_latest_product">Getting Latest Products</string>
     <string name="getting_product">Getting Products</string>
     <string name="_autofilled">Your details has been autofilled</string>
@@ -66,4 +67,7 @@
     <string name="categories">Categories</string>
     <string name="account">Account</string>
     <string name="order_now">Order Now</string>
+    <string name="switch_account">Switch account</string>
+    <string name="logout">Logout</string>
+    <string name="action_stay">Stay</string>
 </resources>

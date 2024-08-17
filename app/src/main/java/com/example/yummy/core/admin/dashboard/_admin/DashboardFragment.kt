@@ -28,7 +28,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        dashboardViewModel.getLatestProduct()
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_dashboard
@@ -46,7 +46,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
             findNavController().navigate(action)
         }
 
-        dashboardViewModel.getLatestProduct()
+//        dashboardViewModel.getLatestProduct()
         subscribeToLiveData()
         initListeners()
     }

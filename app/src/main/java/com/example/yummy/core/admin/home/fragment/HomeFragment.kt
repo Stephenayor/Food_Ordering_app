@@ -78,7 +78,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setupProductsAdapter() {
-        val numberOfColumns = 2
+        val numberOfColumns = 3
         val layoutManager = GridLayoutManager(requireContext(), numberOfColumns)
         layoutManager.orientation = RecyclerView.HORIZONTAL
         productsRecyclerView.layoutManager = layoutManager
