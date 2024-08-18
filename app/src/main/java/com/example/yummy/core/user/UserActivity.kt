@@ -58,9 +58,9 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
         // Optional: Set up navigation icon and listener
         (this as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (this as? AppCompatActivity)?.supportActionBar?.setDisplayShowHomeEnabled(true)
-//        toolbar.setNavigationOnClickListener {
-//            IntroSliderActivity.start(this)
-//        }
+        toolbar.setNavigationOnClickListener {
+           finish()
+        }
 
     }
 
@@ -71,6 +71,6 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        IntroSliderActivity.start(this)
+        finish()
     }
 }

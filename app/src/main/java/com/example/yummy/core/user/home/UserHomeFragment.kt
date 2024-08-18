@@ -2,8 +2,10 @@ package com.example.yummy.core.user.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,6 +59,20 @@ class UserHomeFragment : BaseFragment<FragmentUserHomeBinding>(),
             firebaseAuth.signOut()
             requireActivity().finish()
         }
+
+        setClickListeners()
+    }
+
+    private fun setClickListeners() {
+        userHomeFragmentsProductAdapter.setOnProductClickListener(object :
+            UserHomeFragmentsProductAdapter.OnProductClickListener {
+            override fun onProductClick(product: Product) {
+                // Handle the click event
+                val action = UserHomeFragmentDirections.
+                actionNavigationUserHomeToProductDetailsFragment(product)
+                findNavController().navigate(action)
+            }
+        })
     }
 
     private fun showProducts(product: List<Product>?) {

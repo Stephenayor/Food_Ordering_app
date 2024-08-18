@@ -17,6 +17,12 @@ import com.example.yummy.utils.Tools
 class UserHomeFragmentsProductAdapter (private val context: Context
 ) : ListAdapter<Product, UserHomeFragmentsProductAdapter.UserProductsViewHolder>(CountryDiffCallback()) {
 
+    private var onProductClickListener: OnProductClickListener? = null
+
+    fun setOnProductClickListener(listener: OnProductClickListener) {
+        this.onProductClickListener = listener
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserProductsViewHolder {
         val itemView =
@@ -33,7 +39,7 @@ class UserHomeFragmentsProductAdapter (private val context: Context
             .into(holder.productImageView)
         holder.userProductNameTextView.text = product.productName
         holder.userPriceTextView.text = Tools.formatToCommaNaira(context, product.productPrice)
-//        holder.itemView.setOnClickListener { clickListener(product) }
+        holder.itemView.setOnClickListener { onProductClickListener?.onProductClick(product)}
     }
 
     class UserProductsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -54,5 +60,10 @@ class UserHomeFragmentsProductAdapter (private val context: Context
             return oldItem == newItem
         }
     }
+
+    interface OnProductClickListener {
+        fun onProductClick(product: Product)
+    }
+
 
 }
