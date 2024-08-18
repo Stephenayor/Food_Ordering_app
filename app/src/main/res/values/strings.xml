@@ -70,4 +70,6 @@
     <string name="switch_account">Switch account</string>
     <string name="logout">Logout</string>
     <string name="action_stay">Stay</string>
+    <string name="search_products">Search Products</string>
+    <string name="cart">Cart</string>
 </resources>

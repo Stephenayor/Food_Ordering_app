@@ -155,6 +155,19 @@
         <item name="android:background">#EAEAEA</item>
     </style>
 
+    <style name="editText_v2">
+        <item name="android:maxLines">1</item>
+        <item name="singleLine">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:background">@drawable/edittext_selector</item>
+        <item name="android:drawablePadding">@dimen/spacing_middle</item>
+        <item name="android:paddingLeft">@dimen/spacing_middle</item>
+        <item name="android:paddingEnd">@dimen/spacing_middle</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColorHint">@color/medium_gray</item>
+    </style>
+
 
 
 </resources>

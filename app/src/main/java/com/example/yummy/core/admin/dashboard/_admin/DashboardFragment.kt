@@ -46,7 +46,6 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>() {
             findNavController().navigate(action)
         }
 
-//        dashboardViewModel.getLatestProduct()
         subscribeToLiveData()
         initListeners()
     }

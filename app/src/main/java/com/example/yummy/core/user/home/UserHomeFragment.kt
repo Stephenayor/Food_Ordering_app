@@ -1,30 +1,22 @@
 package com.example.yummy.core.user.home
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yummy.R
-import com.example.yummy.core.admin.home.adapter.HomeFragmentProductsAdapter
 import com.example.yummy.core.admin.home.viewmodel.HomeViewModel
 import com.example.yummy.core.user.home.adapter.UserHomeFragmentsProductAdapter
 import com.example.yummy.data.repository.model.Product
-import com.example.yummy.databinding.FragmentHomeBinding
 import com.example.yummy.databinding.FragmentUserHomeBinding
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
 import com.example.yummy.utils.dialogs.NotificationSheetDialog
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -39,6 +31,7 @@ class UserHomeFragment : BaseFragment<FragmentUserHomeBinding>(),
     private val homeViewModel by viewModels<HomeViewModel>()
     @Inject
     lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,8 +59,8 @@ class UserHomeFragment : BaseFragment<FragmentUserHomeBinding>(),
         }
     }
 
-    private fun showProducts(product: Product?) {
-        userHomeFragmentsProductAdapter.submitList(listOf(product))
+    private fun showProducts(product: List<Product>?) {
+        userHomeFragmentsProductAdapter.submitList((product))
     }
 
     private fun setupProductsAdapter() {
@@ -75,12 +68,6 @@ class UserHomeFragment : BaseFragment<FragmentUserHomeBinding>(),
         val layoutManager = GridLayoutManager(requireContext(), numberOfColumns)
         layoutManager.orientation = RecyclerView.HORIZONTAL
         productsRecyclerView.layoutManager = layoutManager
-        productsRecyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                GridLayoutManager.HORIZONTAL
-            )
-        )
         productsRecyclerView.adapter = userHomeFragmentsProductAdapter
 
     }
@@ -94,7 +81,7 @@ class UserHomeFragment : BaseFragment<FragmentUserHomeBinding>(),
 
                 is Resource.Success -> {
                     hideLoading()
-//                    showProducts(response.data)
+                    showProducts(response.data)
                 }
 
                 is Resource.Error -> {

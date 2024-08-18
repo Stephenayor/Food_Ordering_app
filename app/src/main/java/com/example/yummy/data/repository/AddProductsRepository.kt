@@ -137,6 +137,7 @@ class AddProductsRepository @Inject constructor(
                     }
                     .await()
                 withContext(Dispatchers.IO) {
+                    productDao.clearAllProducts()
                     saveProductsInDB(productsList.toList())
                     getProductsFromDB().collect { productsEntity ->
                         foodProducts = productsEntity.toProductList()

@@ -1,33 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="70dp">
+
+        <EditText
+            android:id="@+id/search_products"
+            style="@style/editText_v2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="55dp"
+            android:autofillHints=""
+            android:background="@drawable/rect_background"
+            android:drawableStart="@drawable/ic_search"
+            android:hint="@string/search_products"
+            android:inputType="text"
+            android:paddingStart="25dp"
+            android:paddingEnd="@dimen/dimen_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
+            android:id="@+id/rl_cart_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_10"
+            android:layout_marginEnd="10dp"
+            android:paddingEnd="@dimen/padding_10"
+            app:layout_constraintBottom_toBottomOf="@id/search_products"
+            app:layout_constraintStart_toEndOf="@id/search_products"
+            app:layout_constraintTop_toTopOf="@id/search_products">
+
+
+            <ImageView
+                android:id="@+id/cart_icon"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:contentDescription="@string/cart"
+                android:src="@drawable/shopping_cart" />
+
+            <!-- Badge for Cart Item Count -->
+            <TextView
+                android:id="@+id/cart_badge"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignTop="@id/cart_icon"
+                android:layout_alignEnd="@id/cart_icon"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/badge_background"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
 
         <Button
             android:id="@+id/text_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:text="logout"
             android:textSize="16sp"
-            android:text="logout"/>
+            app:layout_constraintTop_toBottomOf="@id/search_products" />
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_user_products"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="@dimen/dimen_16"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_logout"
             tools:listitem="@layout/user_products_item" />

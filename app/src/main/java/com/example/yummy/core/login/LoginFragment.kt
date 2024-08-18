@@ -18,6 +18,7 @@ import com.example.yummy.databinding.FragmentLoginBinding
 import com.example.yummy.utils.AppConstants
 import com.example.yummy.utils.AppConstants.ADMIN_USER
 import com.example.yummy.utils.AppConstants.LOGIN_UID
+import com.example.yummy.utils.AppConstants.USERS
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
@@ -71,7 +72,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         isAdmin = loginViewModel.getIsAdmin(ADMIN_USER)
         val currentUser = firebaseAuth.currentUser
         val documentReference =
-            cloudFireStore.collection(AppConstants.USERS).document(uid.toString())
+            cloudFireStore.collection(USERS).document(uid.toString())
         documentReference.get().addOnSuccessListener {
             if (it.get("isAdmin")?.equals(1) == true) {
                 isAdmin = true
@@ -91,6 +92,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         initToolbar(requireActivity() as AppCompatActivity, toolbar)
         emailText = binding.emailEditTextField.text.toString()
         password = binding.passwordEditTextField.text.toString()
+        isAdmin = false
 
         subscribeToLiveData()
         setViewListener()
@@ -107,7 +109,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     hideLoading()
                     if (response.data != null) {
                         checkCategoryOfUser(response.data.uid)
-                        loginViewModel.saveLoginUID(AppConstants.LOGIN_UID, response.data.uid)
+                        loginViewModel.saveLoginUID(LOGIN_UID, response.data.uid)
                         val user = response.data
                         user.let { checkIfUserExists(it.email, it.uid, it.displayName) }
                     }
@@ -131,14 +133,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun checkCategoryOfUser(uid: String) {
-        val documentReference = cloudFireStore.collection(AppConstants.USERS).document(uid)
+        val documentReference = cloudFireStore.collection(USERS).document(uid)
         documentReference.get().addOnSuccessListener { document ->
             if (document != null && document.exists()) {
                 val isAdmin = document.get("isAdmin")
                 if (isAdmin != null) {
                     AdminActivity.start(requireContext())
-                    loginViewModel.saveIsAdmin(AppConstants.ADMIN_USER, true)
+                    loginViewModel.saveIsAdmin(ADMIN_USER, true)
                 } else {
+                    loginViewModel.saveIsAdmin(ADMIN_USER, false)
                     UserActivity.start(requireActivity())
                 }
             } else {
@@ -153,7 +156,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private fun checkIfUserExists(email: String?, uid: String, name: String?) {
         email?.let {
-            cloudFireStore.collection(AppConstants.USERS).document(uid).get()
+            cloudFireStore.collection(USERS).document(uid).get()
                 .addOnSuccessListener { document ->
                     if (!document.exists()) {
                         saveUserToFireStore(email, uid, name)
@@ -176,7 +179,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             userDetails["isAdmin"] = 1
         }
 
-        cloudFireStore.collection(AppConstants.USERS).document(uid).set(userDetails)
+        cloudFireStore.collection(USERS).document(uid).set(userDetails)
             .addOnSuccessListener {
                 Log.d(TAG, "User added to Firestore")
             }

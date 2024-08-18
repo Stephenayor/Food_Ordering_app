@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.yummy.BR
 import com.example.yummy.R
+import com.example.yummy.core.onboarding.activity.OnboardingActivity
 import com.example.yummy.core.view.IntroSliderActivity
 import com.example.yummy.databinding.ActivityAdminBinding
 import com.example.yummy.databinding.ActivityUserBinding
@@ -48,7 +49,7 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController: NavController = navHostFragment.navController
 
-        navView.setupWithNavController(navController)
+//        navView.setupWithNavController(navController)
     }
 
     private fun setupToolbar() {
@@ -57,13 +58,19 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
         // Optional: Set up navigation icon and listener
         (this as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (this as? AppCompatActivity)?.supportActionBar?.setDisplayShowHomeEnabled(true)
-        toolbar.setNavigationOnClickListener {
-            IntroSliderActivity.start(this)
-        }
+//        toolbar.setNavigationOnClickListener {
+//            IntroSliderActivity.start(this)
+//        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        IntroSliderActivity.start(this)
     }
 }

@@ -19,6 +19,7 @@ import com.example.yummy.databinding.FragmentAddProductBinding
 import com.example.yummy.utils.AppConstants
 import com.example.yummy.utils.NavigateTo
 import com.example.yummy.utils.Resource
+import com.example.yummy.utils.TextWatcherUtils
 import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
 import com.example.yummy.utils.imagepicker.ImagePickerHelper
@@ -31,8 +32,6 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
     private var imageUri: Uri? = null
     private lateinit var binding: FragmentAddProductBinding
     private var imagePickerHelper: ImagePickerHelper? = null
-    private val PERMISSION_REQUEST_CODE = 1001
-    private val PICK_IMAGE_REQUEST_CODE = 1
     private lateinit var imageView: ImageView
     private var imageUriOnFirebaseStorage: Uri? = null
     private val addProductViewModel by viewModels<AddProductViewModel>()
@@ -45,7 +44,6 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
 
@@ -58,33 +56,6 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
         subscribeToLiveData()
     }
 
-    private val textWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            enableDisableButton()
-        }
-
-        override fun afterTextChanged(s: Editable?) {
-
-        }
-    }
-
-    private val priceTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            enableDisableButton()
-        }
-
-        override fun afterTextChanged(s: Editable?) {
-
-        }
-    }
 
     private fun subscribeToLiveData() {
         addProductViewModel.cloudStorageResponse.observe(viewLifecycleOwner) { response ->
@@ -128,7 +99,6 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
                                 NavigateTo.ADMIN_DASHBOARD.toString()
                             )
                         findNavController().navigate(action)
-//                        requireActivity().supportFragmentManager.popBackStack()
                     }
                 }
 
@@ -166,6 +136,7 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
 
         binding.productNameEditTextField.addTextChangedListener(textWatcher)
         binding.productPriceEditTextField.addTextChangedListener(priceTextWatcher)
+
     }
 
     @Deprecated("Deprecated in Java")
@@ -201,6 +172,34 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
             binding.productNameEditTextField.text?.isNotEmpty() == true &&
                     binding.productPriceEditTextField.text?.isNotEmpty() == true
                     && imageUriOnFirebaseStorage != null
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            enableDisableButton()
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+
+        }
+    }
+
+    private val priceTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            enableDisableButton()
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+
+        }
     }
 
     companion object {

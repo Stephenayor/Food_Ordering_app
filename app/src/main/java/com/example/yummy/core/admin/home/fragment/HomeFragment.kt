@@ -14,11 +14,13 @@ import com.example.yummy.databinding.FragmentHomeBinding
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
+import com.example.yummy.utils.dialogs.NotificationSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(),
+    NotificationSheetDialog.OnButtonsClickListener {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel by viewModels<HomeViewModel>()
     @Inject
@@ -59,13 +61,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                 is Resource.Error -> {
                     hideLoading()
-//                    Tools.openSuccessErrorDialog(
-//                        requireActivity(),
-//                        response.message,
-//                        "Failed",
-//                        false,
-//                        false
-//                    )
+                    Tools.openSuccessErrorDialog(
+                        requireActivity(),
+                        response.message,
+                        "Failed",
+                        false,
+                        false
+                    )
                 }
 
                 else -> {}
@@ -82,12 +84,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val layoutManager = GridLayoutManager(requireContext(), numberOfColumns)
         layoutManager.orientation = RecyclerView.HORIZONTAL
         productsRecyclerView.layoutManager = layoutManager
-        productsRecyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                GridLayoutManager.HORIZONTAL
-            )
-        )
         productsRecyclerView.adapter = homeFragmentProductsAdapter
 //        homeFragmentProductsAdapter = HomeFragmentProductsAdapter(requireContext()) {
 //            // Handle click event
@@ -102,5 +98,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             HomeFragment().apply {
 
             }
+    }
+
+    override fun onNegativeClick() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPositiveClick() {
+        TODO("Not yet implemented")
     }
 }

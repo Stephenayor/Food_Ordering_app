@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import com.example.yummy.R
 import com.example.yummy.core.admin.AdminSharedViewModel
+import com.example.yummy.core.user.UserActivity
 import com.example.yummy.core.view.IntroSliderActivity
 import com.example.yummy.databinding.FragmentProfileBinding
 import com.example.yummy.utils.Resource
@@ -36,6 +37,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(),
         super.onViewCreated(view, savedInstanceState)
         binding.rlLogout.setOnClickListener {
             openLogoutDialog()
+        }
+
+        binding.rlSwitchAccount.setOnClickListener {
+            UserActivity.start(requireContext())
         }
 
         subscribeToLiveData()
