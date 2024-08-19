@@ -72,4 +72,7 @@
     <string name="action_stay">Stay</string>
     <string name="search_products">Search Products</string>
     <string name="cart">Cart</string>
+    <string name="decrease_quantity">decrease</string>
+    <string name="increase_quantity">increase</string>
+    <string name="add_to_order">Add to Order</string>
 </resources>

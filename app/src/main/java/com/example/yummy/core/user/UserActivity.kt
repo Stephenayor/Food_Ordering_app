@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -43,11 +44,18 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
     override fun initComponents() {
         val binding: ActivityUserBinding = getViewDataBinding()
         setupToolbar()
-        val navView: BottomNavigationView = binding.bottomNavigation
+        val bottomNavView: BottomNavigationView = binding.bottomNavigation
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController: NavController = navHostFragment.navController
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.productDetailsFragment) {
+                bottomNavView.visibility = View.GONE
+            } else {
+                bottomNavView.visibility = View.VISIBLE
+            }
+        }
 
 //        navView.setupWithNavController(navController)
     }

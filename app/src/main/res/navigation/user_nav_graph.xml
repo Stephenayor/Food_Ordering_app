@@ -22,5 +22,13 @@
             android:name="product"
             app:argType="com.example.yummy.data.repository.model.Product"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_completeOrdersFragment"
+            app:destination="@id/completeOrdersFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/completeOrdersFragment"
+        android:name="com.example.yummy.core.user.orders.CompleteOrdersFragment"
+        android:label="fragment_complete_orders"
+        tools:layout="@layout/fragment_complete_orders" />
 </navigation>
