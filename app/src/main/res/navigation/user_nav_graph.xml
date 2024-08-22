@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_user_home_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_navigation_user_home_to_completeOrdersFragment"
+            app:destination="@id/completeOrdersFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
@@ -30,5 +33,17 @@
         android:id="@+id/completeOrdersFragment"
         android:name="com.example.yummy.core.user.orders.CompleteOrdersFragment"
         android:label="fragment_complete_orders"
-        tools:layout="@layout/fragment_complete_orders" />
+        tools:layout="@layout/fragment_complete_orders" >
+        <argument
+            android:name="orderedProduct"
+            app:argType="com.example.yummy.data.repository.model.Product"
+            app:nullable="true" />
+        <argument
+            android:name="orderQuantity"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_completeOrdersFragment_to_navigation_user_home"
+            app:destination="@id/navigation_user_home" />
+    </fragment>
 </navigation>

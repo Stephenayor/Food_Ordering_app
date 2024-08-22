@@ -151,7 +151,7 @@
 
 
             <Button
-                android:id="@+id/btn_sign_up"
+                android:id="@+id/btn_add_to_order"
                 style="@style/newButton"
                 android:layout_alignParentBottom="false"
                 android:layout_marginBottom="@dimen/spacing_middle"

@@ -86,7 +86,7 @@ class AddProductsRepository @Inject constructor(
         callbackFlow<Result<Resource<Product>>> {
             try {
                 val fireStoreDocumentReference =
-                    firebaseFireStore.collection(AppConstants.PRODUCT)
+                    firebaseFireStore.collection(PRODUCT)
                         .document(PRODUCT_ID)
                         .get()
                         .await()
@@ -130,6 +130,7 @@ class AddProductsRepository @Inject constructor(
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             for (document in task.result) {
+                                document.id
                                 val product = document.toObject(Product::class.java)
                                 productsList.add(product)
                             }

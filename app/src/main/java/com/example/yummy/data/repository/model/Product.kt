@@ -2,6 +2,7 @@ package com.example.yummy.data.repository.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.Keep
 
 
 data class Product(

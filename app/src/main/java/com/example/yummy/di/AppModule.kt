@@ -8,7 +8,9 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.yummy.core.admin.home.adapter.HomeFragmentProductsAdapter
 import com.example.yummy.core.user.home.adapter.UserHomeFragmentsProductAdapter
+import com.example.yummy.core.user.orders.adapter.CartItemAdapter
 import com.example.yummy.data.repository.AddProductsRepository
+import com.example.yummy.data.repository.CartItemRepository
 import com.example.yummy.data.repository.SignupLoginRepository
 import com.example.yummy.data.repository.database.ProductDao
 import com.example.yummy.data.repository.database.YummyDatabase
@@ -17,6 +19,7 @@ import com.example.yummy.di.module.ViewModelFactoryModule
 import com.example.yummy.utils.AppConstants
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
@@ -42,6 +45,12 @@ object AppModule {
     @Singleton
     fun provideFirebaseFirestore(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseRealtimeDatabase(): FirebaseDatabase {
+        return FirebaseDatabase.getInstance()
     }
 
     @Provides
@@ -109,6 +118,16 @@ object AppModule {
     }
 
     @Provides
+    fun provideCartsItemRepository(
+        firebaseStorage: FirebaseStorage,
+        firebaseFirestore: FirebaseFirestore,
+        context: Context,
+        firebaseDatabase: FirebaseDatabase
+    ): CartItemRepository {
+        return CartItemRepository(firebaseStorage, firebaseFirestore,firebaseDatabase, context)
+    }
+
+    @Provides
     fun provideViewModelFactoryModule(): KClass<ViewModelFactoryModule> {
         return ViewModelFactoryModule::class
     }
@@ -126,6 +145,15 @@ object AppModule {
     ): UserHomeFragmentsProductAdapter {
         return UserHomeFragmentsProductAdapter(context)
     }
+
+    @Provides
+    fun provideCartItemAdapter(
+        @ApplicationContext context: Context
+    ): CartItemAdapter {
+        return CartItemAdapter(context)
+    }
+
+
 
 
 }

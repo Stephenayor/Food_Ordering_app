@@ -28,6 +28,7 @@
     <string name="signing_out">Signing out</string>
     <string name="getting_latest_product">Getting Latest Products</string>
     <string name="getting_product">Getting Products</string>
+    <string name="adding_product">Adding Products</string>
     <string name="_autofilled">Your details has been autofilled</string>
     <string name="mssg_continue">Continue</string>
     <string name="proceed">Proceed</string>
@@ -75,4 +76,7 @@
     <string name="decrease_quantity">decrease</string>
     <string name="increase_quantity">increase</string>
     <string name="add_to_order">Add to Order</string>
+    <string name="continue_to_order">Continue to Order</string>
+    <string name="cart_product_image">Cart product image</string>
+    <string name="cart_icon">cart icon</string>
 </resources>

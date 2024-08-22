@@ -2,6 +2,7 @@ package com.example.yummy.utils
 
 object AppConstants {
     const val USERS = "USERS"
+    const val CARTS = "CARTS"
     const val PRODUCT = "Product"
     const val PRODUCT_ID="productId"
     const val ACCOUNT_CREATED = "Account Created"

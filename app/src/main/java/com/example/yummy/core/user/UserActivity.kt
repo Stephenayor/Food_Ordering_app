@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.yummy.BR
 import com.example.yummy.R
@@ -50,14 +52,27 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController: NavController = navHostFragment.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.productDetailsFragment) {
-                bottomNavView.visibility = View.GONE
-            } else {
-                bottomNavView.visibility = View.VISIBLE
+            when (destination.id) {
+                R.id.productDetailsFragment ->
+                    bottomNavView.visibility = View.GONE
+                R.id.completeOrdersFragment ->
+                    bottomNavView.visibility = View.GONE
+                else -> bottomNavView.visibility = View.VISIBLE
             }
+//            if (destination.id == R.id.productDetailsFragment) {
+//                bottomNavView.visibility = View.GONE
+//            } else {
+//                bottomNavView.visibility = View.VISIBLE
+//            }
         }
 
 //        navView.setupWithNavController(navController)
+//        val appBarConfiguration = AppBarConfiguration(
+//            topLevelDestinationIds = setOf(),
+//            fallbackOnNavigateUpListener = ::onSupportNavigateUp
+//        )
+//        findViewById<Toolbar>(R.id.toolbar).setupWithNavController(navController, appBarConfiguration)
+//        setupActionBarWithNavController(navController)
     }
 
     private fun setupToolbar() {

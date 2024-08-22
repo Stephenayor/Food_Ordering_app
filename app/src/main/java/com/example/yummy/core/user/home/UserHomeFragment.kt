@@ -2,6 +2,7 @@ package com.example.yummy.core.user.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
@@ -34,6 +35,7 @@ class UserHomeFragment : BaseFragment<FragmentUserHomeBinding>(),
     @Inject
     lateinit var firebaseAuth: FirebaseAuth
     private lateinit var toolbar: Toolbar
+    private lateinit var cartIcon: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,7 @@ class UserHomeFragment : BaseFragment<FragmentUserHomeBinding>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         productsRecyclerView = binding.rvUserProducts
+        cartIcon = binding.cartIcon
 
         homeViewModel.getAllProducts()
         subscribeToLiveData()
@@ -73,6 +76,12 @@ class UserHomeFragment : BaseFragment<FragmentUserHomeBinding>(),
                 findNavController().navigate(action)
             }
         })
+
+        cartIcon.setOnClickListener {
+            val action = UserHomeFragmentDirections.
+            actionNavigationUserHomeToCompleteOrdersFragment(null, null)
+            findNavController().navigate(action)
+        }
     }
 
     private fun showProducts(product: List<Product>?) {
