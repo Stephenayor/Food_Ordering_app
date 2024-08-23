@@ -2,10 +2,11 @@ package com.example.yummy.data.repository.model
 
 
 data class CartItem (
+    var id: String? = null,
     var product: Product? = null,
     val userId: String="",
     val creationDate: Long = 0,
-    val quantity: String = ""
+    var quantity: String = ""
 ){
-    constructor(): this(null, "", 0, "")
+    constructor(): this(null, null, "", 0, "")
 }

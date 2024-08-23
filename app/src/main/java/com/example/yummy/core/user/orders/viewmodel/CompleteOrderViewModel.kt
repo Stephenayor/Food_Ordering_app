@@ -1,5 +1,6 @@
 package com.example.yummy.core.user.orders.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,28 +16,33 @@ import javax.inject.Inject
 @HiltViewModel
 class CompleteOrderViewModel @Inject constructor(
     private val cartItemRepository: CartItemRepository
-): ViewModel() {
+) : ViewModel() {
 
-    private val _addProductToCartResponse = MutableLiveData<Resource<Boolean>?>()
-    val addProductToCartResponse: MutableLiveData<Resource<Boolean>?> = _addProductToCartResponse
+    private val _updateProductInCartResponse = MutableLiveData<Resource<Boolean>?>()
+    val updateProductInCartResponse: MutableLiveData<Resource<Boolean>?> =
+        _updateProductInCartResponse
+
+    private val _deleteProductInCartResponse = MutableLiveData<Resource<Boolean>?>()
+    val deleteProductInCartResponse: LiveData<Resource<Boolean>?> = _updateProductInCartResponse
 
     private val _getAllCartItemsResponse = MutableLiveData<Resource<List<CartItem>>?>()
-    val getAllCartItemResponse: MutableLiveData<Resource<List<CartItem>>?> = _getAllCartItemsResponse
-
+    val getAllCartItemResponse: MutableLiveData<Resource<List<CartItem>>?> =
+        _getAllCartItemsResponse
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
-     fun addProductsToCart(product: Product, quantity: String) {
-        _addProductToCartResponse.postValue(Resource.Loading())
+    fun addProductsToCart(product: Product, quantity: String) {
+        _updateProductInCartResponse.postValue(Resource.Loading())
 
         viewModelScope.launch {
             cartItemRepository.addCartItemToRealtimeDatabase(product, quantity).collect {
                 when {
                     it.isSuccess -> {
-                        _addProductToCartResponse.postValue(it.getOrNull())
+                        _updateProductInCartResponse.postValue(it.getOrNull())
                     }
+
                     it.isFailure -> {
-                        _addProductToCartResponse.postValue(it.getOrNull())
+                        _updateProductInCartResponse.postValue(it.getOrNull())
                     }
                 }
             }
@@ -53,8 +59,47 @@ class CompleteOrderViewModel @Inject constructor(
                     it.isSuccess -> {
                         _getAllCartItemsResponse.postValue(it.getOrNull())
                     }
+
                     it.isFailure -> {
                         _getAllCartItemsResponse.postValue(it.getOrNull())
+                    }
+                }
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun updateProductsInCart(cartItem: CartItem) {
+        _updateProductInCartResponse.postValue(Resource.Loading())
+
+        viewModelScope.launch {
+            cartItemRepository.updateCartItemInRealtimeDatabase(cartItem).collect {
+                when {
+                    it.isSuccess -> {
+                        _updateProductInCartResponse.postValue(it.getOrNull())
+                    }
+
+                    it.isFailure -> {
+                        _updateProductInCartResponse.postValue(it.getOrNull())
+                    }
+                }
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun deleteProductsInCart() {
+        _deleteProductInCartResponse.postValue(Resource.Loading())
+
+        viewModelScope.launch {
+            cartItemRepository.deleteAllItemsInCart().collect {
+                when {
+                    it.isSuccess -> {
+                        _deleteProductInCartResponse.postValue(it.getOrNull())
+                    }
+
+                    it.isFailure -> {
+                        _deleteProductInCartResponse.postValue(it.getOrNull())
                     }
                 }
             }

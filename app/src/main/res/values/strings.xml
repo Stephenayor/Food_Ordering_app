@@ -81,4 +81,5 @@
     <string name="continue_to_cart">Continue to Cart</string>
     <string name="cart_product_image">Cart product image</string>
     <string name="cart_icon">cart icon</string>
+    <string name="delete">Delete</string>
 </resources>

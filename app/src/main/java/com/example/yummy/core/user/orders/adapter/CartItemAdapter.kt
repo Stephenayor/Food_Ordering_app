@@ -44,9 +44,12 @@ class CartItemAdapter(
         holder.itemPrice.text =
             cartItem?.product?.productPrice?.let { Tools.formatToCommaNaira(context, it) }
         holder.itemQuantityText.text = cartItem?.quantity
-        holder.itemView.setOnClickListener {
+        holder.minusButton.setOnClickListener {
+            onProductClickListener?.onMinusButtonProductClick(cartItem, position)
+        }
+        holder.plusButton.setOnClickListener {
             if (cartItem != null) {
-                onProductClickListener?.onProductClick(cartItem)
+                onProductClickListener?.onProductClick(cartItem, position)
             }
         }
     }
@@ -76,7 +79,8 @@ class CartItemAdapter(
     }
 
     interface OnCartItemProductClickListener {
-        fun onProductClick(product: CartItem)
+        fun onProductClick(product: CartItem, position: Int)
+        fun onMinusButtonProductClick(product: CartItem, position: Int)
     }
 
 
