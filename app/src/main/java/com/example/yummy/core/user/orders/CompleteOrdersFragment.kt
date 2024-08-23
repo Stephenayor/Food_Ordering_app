@@ -3,6 +3,7 @@ package com.example.yummy.core.user.orders
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
@@ -30,6 +31,7 @@ class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
     private val completeOrderViewModel by viewModels<CompleteOrderViewModel>()
     private var itemPosition: Int? = 0
     private var isUpdate: Boolean = false
+    private lateinit var totalAmountText: TextView
 
     @Inject
     lateinit var cartItemAdapter: CartItemAdapter
@@ -52,6 +54,7 @@ class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
         toolbar = binding.toolbar
         initToolbar(requireActivity() as AppCompatActivity, toolbar)
         cartProductsRecyclerView = binding.rvCartItemProducts
+        totalAmountText = binding.totalAmount
 
         setupCartProductsAdapter()
         FirebaseAuth.getInstance().currentUser?.uid?.let { userId ->
@@ -176,7 +179,20 @@ class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
         if (isUpdate) {
             itemPosition?.let { cartItemAdapter.notifyItemChanged(it) }
         }
+        totalAmountText.text = Tools.formatToCommaNaira(
+            requireContext(),
+            calculateTotalAmount(cartItems)
+        )
     }
+
+    private fun calculateTotalAmount(cartItems: List<CartItem>): Double {
+        return cartItems.sumOf { cartItem ->
+            val price = cartItem.product?.productPrice ?: 0.0
+            val quantity = cartItem.quantity.toDoubleOrNull() ?: 0.0
+            price * quantity
+        }
+    }
+
 
     private fun setupCartProductsAdapter() {
         val layoutManager = LinearLayoutManager(requireContext())

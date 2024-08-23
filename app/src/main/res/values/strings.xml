@@ -82,4 +82,6 @@
     <string name="cart_product_image">Cart product image</string>
     <string name="cart_icon">cart icon</string>
     <string name="delete">Delete</string>
+    <string name="total_payment">Total Payment</string>
+    <string name="pay_now">Pay Now</string>
 </resources>
