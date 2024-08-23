@@ -11,7 +11,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             tools:context=".core.login.LoginFragment">
 
             <LinearLayout
@@ -155,7 +155,7 @@
                 style="@style/newButton"
                 android:layout_alignParentBottom="false"
                 android:layout_marginBottom="@dimen/spacing_middle"
-                android:layout_marginTop="170dp"
+                android:layout_marginTop="260dp"
                 android:text="@string/add_to_order"
                 app:layout_constraintTop_toBottomOf="@id/product_quantity_picker"
                 app:layout_constraintBottom_toBottomOf="parent"

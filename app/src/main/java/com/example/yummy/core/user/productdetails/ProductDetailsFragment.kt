@@ -1,8 +1,7 @@
 package com.example.yummy.core.user.productdetails
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
@@ -20,9 +19,9 @@ import com.example.yummy.databinding.FragmentProductDetailsBinding
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding>() {
@@ -31,13 +30,17 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding>() {
     private lateinit var toolbar: Toolbar
     private lateinit var productImageView: ImageView
     private lateinit var productNameTextView: TextView
-    private lateinit var productPriceTextView:TextView
-    private  var product: Product? = null
+    private lateinit var productPriceTextView: TextView
+    private var product: Product? = null
     private var quantity = 1
     private lateinit var quantityTextView: TextView
     private lateinit var plusProductQuantityButton: ImageButton
     private lateinit var minusProductQuantityButton: ImageButton
     private val productDetailsViewModel by viewModels<ProductDetailsViewModel>()
+    private var isProductInCart: Boolean = false
+
+    @Inject
+    lateinit var firebaseAuth: FirebaseAuth
 
 
     override fun getLayoutId(): Int = R.layout.fragment_product_details
@@ -61,12 +64,17 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding>() {
         minusProductQuantityButton = binding.btnMinus
 
 
-        if (args.product != null) {
-            product = args.product!!
-        }
-
+        product = args.product!!
         toolbar = binding.toolbar
         initToolbar(requireActivity() as AppCompatActivity, toolbar)
+        firebaseAuth.currentUser?.uid?.let { userId ->
+            product?.productName?.let { productName ->
+                productDetailsViewModel.getExistingItemInCart(
+                    productName,
+                    userId
+                )
+            }
+        }
         displayProducts()
         setupClickListeners()
         subscribeToLiveData()
@@ -88,11 +96,18 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding>() {
         }
 
         binding.btnAddToOrder.setOnClickListener {
-//            val action = ProductDetailsFragmentDirections.
-//            actionProductDetailsFragmentToCompleteOrdersFragment(product, quantity.toString())
-//            findNavController().navigate(action)
-
-            product?.let { product1 -> productDetailsViewModel.addProductsToCart(product1, quantity.toString()) }
+            if (isProductInCart) {
+                val action =
+                    ProductDetailsFragmentDirections.actionProductDetailsFragmentToCompleteOrdersFragment(
+                        null,
+                        null
+                    )
+                findNavController().navigate(action)
+            } else {
+                product?.let { product1 ->
+                    productDetailsViewModel.addProductsToCart(product1, quantity.toString())
+                }
+            }
         }
 
     }
@@ -121,8 +136,11 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding>() {
 
                 is Resource.Success -> {
                     hideLoading()
-                    val action = ProductDetailsFragmentDirections.
-                    actionProductDetailsFragmentToCompleteOrdersFragment(product, quantity.toString())
+                    val action =
+                        ProductDetailsFragmentDirections.actionProductDetailsFragmentToCompleteOrdersFragment(
+                            product,
+                            quantity.toString()
+                        )
                     findNavController().navigate(action)
                 }
 
@@ -140,22 +158,51 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding>() {
                 else -> {}
             }
         }
+
+        productDetailsViewModel.isProductInCart.observe(viewLifecycleOwner) { response ->
+            if (response) {
+                isProductInCart = response
+                binding.btnAddToOrder.text = "Continue to Cart"
+            }
+        }
+
+
+        handleLoadingState()
     }
 
-//    @Deprecated("Deprecated in Java")
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.cart_icon_menu, menu)
-//        return super.onCreateOptionsMenu(menu, inflater)
-//    }
+    private fun handleLoadingState() {
+        productDetailsViewModel.getExistingItemsInCart.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+                    showLoading(R.string.get_product_details, R.string.please_wait_dots)
+                }
+
+                is Resource.Success -> {
+                    hideLoading()
+                }
+
+                is Resource.Error -> {
+                    hideLoading()
+                }
+
+                else -> {}
+            }
+        }
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.cart_icon -> {
-                val action = ProductDetailsFragmentDirections.
-                actionProductDetailsFragmentToCompleteOrdersFragment(null, null)
+                val action =
+                    ProductDetailsFragmentDirections.actionProductDetailsFragmentToCompleteOrdersFragment(
+                        null,
+                        null
+                    )
                 findNavController().navigate(action)
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
