@@ -99,4 +99,5 @@
     <string name="enter_valid_date_mm_yy">Enter a valid expiry date</string>
     <string name="asterics_3">***</string>
     <string name="pay_amount">Pay</string>
+    <string name="let_s_go_nchamp">Let\'s Go, \nCHAMP</string>
 </resources>

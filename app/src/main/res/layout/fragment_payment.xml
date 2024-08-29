@@ -165,6 +165,7 @@
                 android:background="@drawable/btn_border_blue_bg"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:textAllCaps="false"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/et_cvv"

@@ -14,6 +14,7 @@ import co.paystack.android.Transaction
 import co.paystack.android.model.Card
 import co.paystack.android.model.Charge
 import com.example.yummy.R
+import com.example.yummy.core.user.orders.bottomsheet.PaymentSuccessBottomSheet
 import com.example.yummy.databinding.FragmentPaymentBinding
 import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
@@ -258,6 +259,10 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
                     "Yeeeee!!, Payment was successful",
                     Toast.LENGTH_LONG
                 ).show()
+                val dialog = PaymentSuccessBottomSheet()
+                dialog.isCancelable = true
+                dialog.show(parentFragmentManager, dialog.tag).also {
+                }
 
                 this@PaymentFragment.transaction = transaction
                 //now you can store the transaction reference, and perform a verification on your backend server
