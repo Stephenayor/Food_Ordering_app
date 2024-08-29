@@ -57,6 +57,8 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
                     bottomNavView.visibility = View.GONE
                 R.id.completeOrdersFragment ->
                     bottomNavView.visibility = View.GONE
+                R.id.paymentFragment ->
+                    bottomNavView.visibility = View.GONE
                 else -> bottomNavView.visibility = View.VISIBLE
             }
 //            if (destination.id == R.id.productDetailsFragment) {

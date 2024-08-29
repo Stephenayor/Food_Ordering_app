@@ -45,5 +45,16 @@
         <action
             android:id="@+id/action_completeOrdersFragment_to_navigation_user_home"
             app:destination="@id/navigation_user_home" />
+        <action
+            android:id="@+id/action_completeOrdersFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.yummy.core.payment.PaymentFragment"
+        android:label="PaymentFragment" >
+        <argument
+            android:name="totalAmount"
+            app:argType="integer" />
     </fragment>
 </navigation>

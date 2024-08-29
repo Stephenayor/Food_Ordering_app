@@ -1,7 +1,6 @@
 package com.example.yummy.core.user.orders
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +31,7 @@ class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
     private var itemPosition: Int? = 0
     private var isUpdate: Boolean = false
     private lateinit var totalAmountText: TextView
+    private  var totalAmount: Int? = 0
 
     @Inject
     lateinit var cartItemAdapter: CartItemAdapter
@@ -75,6 +75,14 @@ class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
 
         binding.deleteButton.setOnClickListener {
             completeOrderViewModel.deleteProductsInCart()
+        }
+
+        binding.btnPayNow.setOnClickListener {
+           val action =
+                CompleteOrdersFragmentDirections.
+                actionCompleteOrdersFragmentToPaymentFragment(totalAmount!!)
+            findNavController().navigate(action)
+
         }
 
         handleCartAdapterItemClickListener()
@@ -183,9 +191,18 @@ class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
             requireContext(),
             calculateTotalAmount(cartItems)
         )
+        totalAmount = calculateTotalAmount(cartItems).toInt()
+        if (cartItems.isNotEmpty() && totalAmount != 0) {
+            binding.btnPayNow.isEnabled = true
+        }
     }
 
     private fun calculateTotalAmount(cartItems: List<CartItem>): Double {
+        totalAmount = cartItems.sumOf { cartItem ->
+            val price = cartItem.product?.productPrice ?: 0.0
+            val quantity = cartItem.quantity.toDoubleOrNull() ?: 0.0
+            price * quantity
+        }.toInt()
         return cartItems.sumOf { cartItem ->
             val price = cartItem.product?.productPrice ?: 0.0
             val quantity = cartItem.quantity.toDoubleOrNull() ?: 0.0

@@ -21,6 +21,8 @@
     //BLUE
     <color name="light_blue">#38ACEC</color>
     <color name="strong_sapphire_blue">#214296</color>
+    <color name="main_blue">#0E2F91</color>
+    <color name="main_blue_opaque">#660E2F91</color>
 
     <color name="background">#F8F8F8</color>
     <color name="purple_new">#5F138D</color>

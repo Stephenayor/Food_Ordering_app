@@ -60,6 +60,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="YOUR_API_KEY" />
 
+        <meta-data
+            android:name="co.paystack.android.PublicKey"
+            android:value="@string/paystack_public_key" />
+
         <activity
             android:name=".core.view.MapsActivity"
             android:exported="false"
