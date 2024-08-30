@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yummy.data.repository.CartItemRepository
+import com.example.yummy.data.repository.OrdersRepository
 import com.example.yummy.data.repository.model.CartItem
 import com.example.yummy.data.repository.model.Product
 import com.example.yummy.utils.Resource
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CompleteOrderViewModel @Inject constructor(
-    private val cartItemRepository: CartItemRepository
+    private val cartItemRepository: CartItemRepository,
+    private val ordersRepository: OrdersRepository
 ) : ViewModel() {
 
     private val _updateProductInCartResponse = MutableLiveData<Resource<Boolean>?>()
@@ -28,6 +30,10 @@ class CompleteOrderViewModel @Inject constructor(
     private val _getAllCartItemsResponse = MutableLiveData<Resource<List<CartItem>>?>()
     val getAllCartItemResponse: MutableLiveData<Resource<List<CartItem>>?> =
         _getAllCartItemsResponse
+
+    private val _addProductsToOrderDBResponse = MutableLiveData<Resource<Boolean>?>()
+    val addProductsToOrderDBResponse: MutableLiveData<Resource<Boolean>?> =
+        _addProductsToOrderDBResponse
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -43,6 +49,25 @@ class CompleteOrderViewModel @Inject constructor(
 
                     it.isFailure -> {
                         _updateProductInCartResponse.postValue(it.getOrNull())
+                    }
+                }
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun addProductsToOrdersDB(cartItem: List<CartItem>, orderDate: Long) {
+        _addProductsToOrderDBResponse.postValue(Resource.Loading())
+
+        viewModelScope.launch {
+            ordersRepository.addProductsToOrderDB(cartItem, orderDate).collect {
+                when {
+                    it.isSuccess -> {
+                        _addProductsToOrderDBResponse.postValue(it.getOrNull())
+                    }
+
+                    it.isFailure -> {
+                        _addProductsToOrderDBResponse.postValue(it.getOrNull())
                     }
                 }
             }

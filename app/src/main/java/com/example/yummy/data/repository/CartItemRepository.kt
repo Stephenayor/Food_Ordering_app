@@ -55,7 +55,6 @@ class CartItemRepository @Inject constructor(
                     database.child(CARTS).child(userId.toString()).child(cartItemId.toString())
                         .setValue(cartItem)
                         .addOnSuccessListener {
-                            Log.d("Firebase", "Cart item updated successfully.")
                             val result = Resource.Success(true)
                             this@callbackFlow.trySend(Result.success(result))
                         }

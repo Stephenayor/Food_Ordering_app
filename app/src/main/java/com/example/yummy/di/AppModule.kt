@@ -2,7 +2,6 @@ package com.example.yummy.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.fragment.app.Fragment
 import androidx.room.Room
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
@@ -11,10 +10,10 @@ import com.example.yummy.core.user.home.adapter.UserHomeFragmentsProductAdapter
 import com.example.yummy.core.user.orders.adapter.CartItemAdapter
 import com.example.yummy.data.repository.AddProductsRepository
 import com.example.yummy.data.repository.CartItemRepository
+import com.example.yummy.data.repository.OrdersRepository
 import com.example.yummy.data.repository.SignupLoginRepository
 import com.example.yummy.data.repository.database.ProductDao
 import com.example.yummy.data.repository.database.YummyDatabase
-import com.example.yummy.data.repository.model.Product
 import com.example.yummy.di.module.ViewModelFactoryModule
 import com.example.yummy.utils.AppConstants
 import com.google.firebase.Firebase
@@ -125,6 +124,14 @@ object AppModule {
         firebaseDatabase: FirebaseDatabase
     ): CartItemRepository {
         return CartItemRepository(firebaseStorage, firebaseFirestore,firebaseDatabase, context)
+    }
+
+    @Provides
+    fun provideOrdersRepository(
+        context: Context,
+        firebaseFireStore: FirebaseFirestore
+    ): OrdersRepository {
+        return OrdersRepository(context, firebaseFireStore)
     }
 
     @Provides

@@ -56,5 +56,13 @@
         <argument
             android:name="totalAmount"
             app:argType="integer" />
+        <argument
+            android:name="cartItems"
+            app:argType="com.example.yummy.data.repository.model.CartItem[]"
+            app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_user_orders"
+        android:name="com.example.yummy.core.user.orders.UserOrderFragment"
+        android:label="UserOrderFragment" />
 </navigation>

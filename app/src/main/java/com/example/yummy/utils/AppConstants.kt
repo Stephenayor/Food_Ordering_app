@@ -5,6 +5,7 @@ object AppConstants {
     const val CARTS = "CARTS"
     const val PRODUCT = "Product"
     const val PRODUCT_ID="productId"
+    const val ORDERS = "ORDERS"
     const val ACCOUNT_CREATED = "Account Created"
     const val REQUEST_SUCCESSFUL = "Request Successful"
     const val CONTINUE = "Continue"

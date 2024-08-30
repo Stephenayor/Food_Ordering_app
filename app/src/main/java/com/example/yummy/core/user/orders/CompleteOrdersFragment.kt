@@ -31,7 +31,8 @@ class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
     private var itemPosition: Int? = 0
     private var isUpdate: Boolean = false
     private lateinit var totalAmountText: TextView
-    private  var totalAmount: Int? = 0
+    private var totalAmount: Int? = 0
+    private lateinit var cartItems: List<CartItem>
 
     @Inject
     lateinit var cartItemAdapter: CartItemAdapter
@@ -78,9 +79,10 @@ class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
         }
 
         binding.btnPayNow.setOnClickListener {
-           val action =
-                CompleteOrdersFragmentDirections.
-                actionCompleteOrdersFragmentToPaymentFragment(totalAmount!!)
+            val action =
+                CompleteOrdersFragmentDirections.actionCompleteOrdersFragmentToPaymentFragment(
+                    totalAmount!!, cartItems.toTypedArray()
+                )
             findNavController().navigate(action)
 
         }
@@ -116,11 +118,18 @@ class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
 
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    showCartItems(response.data!!)
+                    if (response.data?.isNotEmpty() == true) {
+                        binding.btnPayNow.visibility = View.VISIBLE
+                    }else{
+                        binding.btnPayNow.visibility = View.GONE
+                    }
+                    cartItems = response.data!!
+                    showCartItems(response.data)
                 }
 
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
+                    binding.btnPayNow.visibility = View.GONE
                     Tools.openSuccessErrorDialog(
                         requireActivity(),
                         response.message,

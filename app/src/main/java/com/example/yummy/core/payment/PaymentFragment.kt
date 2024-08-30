@@ -3,10 +3,12 @@ package com.example.yummy.core.payment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import co.paystack.android.Paystack
 import co.paystack.android.PaystackSdk
@@ -15,10 +17,14 @@ import co.paystack.android.model.Card
 import co.paystack.android.model.Charge
 import com.example.yummy.R
 import com.example.yummy.core.user.orders.bottomsheet.PaymentSuccessBottomSheet
+import com.example.yummy.core.user.orders.viewmodel.CompleteOrderViewModel
+import com.example.yummy.data.repository.model.CartItem
 import com.example.yummy.databinding.FragmentPaymentBinding
+import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
 import com.example.yummy.utils.formatter.CreditCardTextFormatter
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
 import java.util.Calendar
@@ -33,6 +39,8 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
     private lateinit var cvvText: EditText
     private val paymentFragmentArgs by navArgs<PaymentFragmentArgs>()
     private var totalPrice = 0
+    private val completeOrderViewModel by viewModels<CompleteOrderViewModel>()
+    private lateinit var cartItemList: List<CartItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +59,29 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
         expiryDate = binding.etExpiry
         cvvText = binding.etCvv
         initViews()
+        subscribeToLiveData()
+    }
+
+    private fun subscribeToLiveData() {
+        completeOrderViewModel.addProductsToOrderDBResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Loading -> {
+
+                }
+
+                is Resource.Success -> {
+                    Tools.showToast(requireContext(), "I DON ADD AM, GUY")
+                    Log.d("tag", "I DON ADD AM, GUY")
+
+                }
+
+                is Resource.Error -> {
+
+                }
+
+                else -> {}
+            }
+        }
     }
 
     private fun initViews() {
@@ -252,8 +283,8 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
             override fun onSuccess(transaction: Transaction) {
                 binding.loadingPayOrder.visibility = View.GONE
                 binding.btnPay.visibility = View.VISIBLE
-
-                //successful, show a toast or navigate to another activity or fragment
+                cartItemList = paymentFragmentArgs.cartItems?.toList() as List<CartItem>
+                completeOrderViewModel.addProductsToOrdersDB(cartItemList, System.currentTimeMillis())
                 Toast.makeText(
                     requireActivity(),
                     "Yeeeee!!, Payment was successful",

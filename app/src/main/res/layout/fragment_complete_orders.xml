@@ -156,6 +156,7 @@
                 android:layout_alignParentBottom="false"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="@dimen/spacing_middle"
+                android:visibility="invisible"
                 android:text="@string/pay_now"
                 android:enabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"

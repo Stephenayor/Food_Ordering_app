@@ -59,6 +59,8 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
                     bottomNavView.visibility = View.GONE
                 R.id.paymentFragment ->
                     bottomNavView.visibility = View.GONE
+                R.id.navigation_user_orders ->
+                    bottomNavView.visibility = View.GONE
                 else -> bottomNavView.visibility = View.VISIBLE
             }
 //            if (destination.id == R.id.productDetailsFragment) {
@@ -68,7 +70,7 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
 //            }
         }
 
-//        navView.setupWithNavController(navController)
+        bottomNavView.setupWithNavController(navController)
 //        val appBarConfiguration = AppBarConfiguration(
 //            topLevelDestinationIds = setOf(),
 //            fallbackOnNavigateUpListener = ::onSupportNavigateUp
