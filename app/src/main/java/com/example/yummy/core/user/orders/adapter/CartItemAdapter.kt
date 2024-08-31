@@ -12,12 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.yummy.R
 import com.example.yummy.data.repository.model.CartItem
-import com.example.yummy.data.repository.model.Product
 import com.example.yummy.utils.Tools
 
 class CartItemAdapter(
     private val context: Context
-) : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder>(CountryDiffCallback()) {
+) : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder>(CartItemDiffCallback()) {
 
     private var onProductClickListener: OnCartItemProductClickListener? = null
 
@@ -64,7 +63,7 @@ class CartItemAdapter(
     }
 
 
-    class CountryDiffCallback : DiffUtil.ItemCallback<CartItem>() {
+    class CartItemDiffCallback : DiffUtil.ItemCallback<CartItem>() {
         override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
             // Compare IDs to determine if items are the same
             return oldItem.product == newItem.product

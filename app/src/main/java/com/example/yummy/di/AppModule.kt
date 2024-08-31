@@ -8,6 +8,7 @@ import androidx.security.crypto.MasterKey
 import com.example.yummy.core.admin.home.adapter.HomeFragmentProductsAdapter
 import com.example.yummy.core.user.home.adapter.UserHomeFragmentsProductAdapter
 import com.example.yummy.core.user.orders.adapter.CartItemAdapter
+import com.example.yummy.core.user.orders.adapter.UserOrdersAdapter
 import com.example.yummy.data.repository.AddProductsRepository
 import com.example.yummy.data.repository.CartItemRepository
 import com.example.yummy.data.repository.OrdersRepository
@@ -20,6 +21,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import dagger.Module
@@ -158,6 +160,13 @@ object AppModule {
         @ApplicationContext context: Context
     ): CartItemAdapter {
         return CartItemAdapter(context)
+    }
+
+    @Provides
+    fun provideUserOrdersAdapter(
+        @ApplicationContext context: Context
+    ): UserOrdersAdapter {
+        return UserOrdersAdapter(context)
     }
 
 

@@ -19,6 +19,8 @@ import com.example.yummy.utils.dialogs.NotificationSheetDialog
 import com.example.yummy.utils.dialogs.ProgressDialogFragment
 import java.io.ByteArrayOutputStream
 import java.math.BigDecimal
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 import java.util.UUID
 
@@ -154,6 +156,13 @@ class Tools {
         }
 
          fun getRandomUID() : UUID = UUID.randomUUID()
+
+         fun convertToStandardDateFormat(dateInMillis: Long): String {
+            val dateFormat = SimpleDateFormat("dd MMM, yyyy")
+            // Convert the long value to a Date object
+            val date = Date(dateInMillis)
+            return dateFormat.format(date)
+        }
 
     }
 }

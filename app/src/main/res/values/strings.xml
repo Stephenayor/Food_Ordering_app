@@ -100,4 +100,5 @@
     <string name="asterics_3">***</string>
     <string name="pay_amount">Pay</string>
     <string name="let_s_go_nchamp">Let\'s Go, \nCHAMP</string>
+    <string name="loading_orders">Loading Orders</string>
 </resources>
