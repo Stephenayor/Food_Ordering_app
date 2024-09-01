@@ -13,12 +13,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="45dp"
-            android:layout_marginEnd="15dp"
             android:paddingBottom="@dimen/spacing_xxlarge">
 
 
             <TextView
-                android:id="@+id/my_transactions_tv"
+                android:id="@+id/my_orders_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
@@ -35,20 +34,73 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
                 android:src="@drawable/octicon_filter_16"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <Spinner
+                android:id="@+id/orders_filter_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="30dp"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/octicon_filter_16"
+                android:popupBackground="@android:color/white"
+                android:spinnerMode="dropdown"
+                app:layout_constraintBottom_toBottomOf="@id/my_orders_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/my_orders_tv" />
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/banner"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:text="@string/app_name"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textSize="25sp"-->
+<!--                android:textColor="#F6F6"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                tools:layout_editor_absoluteX="16dp" />-->
+
+            <TextView
+                android:id="@+id/selectedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="@dimen/dimen_15"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:fontFamily="@font/khula_bold"
+                android:textSize="20sp"
+                tools:text="Selected Date Range"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/orders_filter_spinner" />
+
+<!--            <Button-->
+<!--                android:id="@+id/datePicker"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="172dp"-->
+<!--                android:text="Open Dialog"-->
+<!--                android:textSize="20sp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent" />-->
 
             <TextView
                 android:id="@+id/note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:text="NB: You’ll find your recent orders here"
                 android:textColor="#A0A0A0"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/my_transactions_tv" />
+                app:layout_constraintTop_toBottomOf="@id/my_orders_tv" />
 
             <TextView
                 android:id="@+id/no_transactions"

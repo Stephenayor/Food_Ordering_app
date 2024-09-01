@@ -95,4 +95,37 @@ class OrdersRepository @Inject constructor(
         }
         awaitClose {}
     }
+
+   suspend fun getOrdersByDateRange(startDate: Long, endDate: Long) =
+        callbackFlow<Result<Resource<List<Orders>>>> {
+            try {
+                val query = firebaseFireStore.collection(ORDERS)
+                    .whereGreaterThanOrEqualTo("dateOfOrder", startDate)
+                    .whereLessThanOrEqualTo("dateOfOrder", endDate)
+
+                val listenerRegistration = query.addSnapshotListener { snapshot, e ->
+                    if (e != null) {
+                        trySend(Result.success(Resource.Error(e.localizedMessage, null))).isSuccess
+                        return@addSnapshotListener
+                    }
+
+                    if (snapshot != null && !snapshot.isEmpty) {
+                        val orders = snapshot.toObjects(Orders::class.java)
+                        val result = Resource.Success(orders)
+                        this@callbackFlow.trySend(Result.success(result))
+//                    trySend(Result.success(Resource.Success(orders))).isSuccess
+                    } else {
+                        val result = Resource.Success(emptyList<Orders>())
+                        this@callbackFlow.trySend(Result.success(result))
+//                    trySend(Result.success(Resource.Success(emptyList()))).isSuccess
+                    }
+                }
+
+                awaitClose { listenerRegistration.remove() }
+            } catch (e: Exception) {
+                trySend(Result.success(Resource.Error(e.localizedMessage, null))).isFailure
+                val error = Resource.Error<List<Orders>>(e.localizedMessage)
+                this@callbackFlow.trySend(Result.success(error))
+            }
+        }
 }

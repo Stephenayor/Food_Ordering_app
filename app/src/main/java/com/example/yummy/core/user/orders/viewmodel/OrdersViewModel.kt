@@ -1,5 +1,6 @@
 package com.example.yummy.core.user.orders.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,6 +21,9 @@ class OrdersViewModel @Inject constructor(
     private val _ordersResponse = MutableLiveData<Resource<List<Orders>>?>()
     val ordersResponse: MutableLiveData<Resource<List<Orders>>?> get() = _ordersResponse
 
+    private val _filteredOrdersResponse = MutableLiveData<Resource<List<Orders>>?>()
+    val filteredOrdersResponse: MutableLiveData<Resource<List<Orders>>?> get() = _filteredOrdersResponse
+
     private var lastVisibleDocument: DocumentSnapshot? = null
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -36,6 +40,25 @@ class OrdersViewModel @Inject constructor(
 
                     it.isFailure -> {
                         _ordersResponse.postValue(it.getOrNull())
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun filterOrdersByDate(startDate: Long, endData: Long) {
+        _filteredOrdersResponse.postValue(Resource.Loading())
+        viewModelScope.launch {
+
+            ordersRepository.getOrdersByDateRange(startDate, endData).collect {
+                when {
+                    it.isSuccess -> {
+                        _filteredOrdersResponse.postValue(it.getOrNull())
+                    }
+
+                    it.isFailure -> {
+                        _filteredOrdersResponse.postValue(it.getOrNull())
                     }
                 }
             }

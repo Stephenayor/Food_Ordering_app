@@ -2,8 +2,9 @@ package com.example.yummy.data.repository.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.database.IgnoreExtraProperties
 
-
+@IgnoreExtraProperties
 data class Orders(
     val creationDate: Long = 0,
     val dateOfOrder: Long = 0,
