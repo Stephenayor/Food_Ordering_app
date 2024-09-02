@@ -59,7 +59,7 @@ class CartItemRepository @Inject constructor(
                             this@callbackFlow.trySend(Result.success(result))
                         }
                         .addOnFailureListener { e: Throwable ->
-                            Log.e("Firebasedatabase", "Failed to save cart item.", e)
+                            Log.e("FireBaseDatabase", "Failed to save cart item.", e)
                             val error = Resource.Error(e.localizedMessage, false)
                             this@callbackFlow.trySend(Result.success(error))
                         }
@@ -89,7 +89,6 @@ class CartItemRepository @Inject constructor(
                     Log.d("1st hash", cartItem.quantity)
                     cartItemsRef.removeValue()
                     hashMapOf(
-
 //                        "$existingProductCartId/id" to null,
 //                        "$existingProductCartId/quantity" to null,
 //                        "$existingProductCartId/product" to null,
@@ -146,7 +145,7 @@ class CartItemRepository @Inject constructor(
             }
             databaseReference.child(userId).addValueEventListener(cartItemsListener)
         } catch (exception: Exception) {
-            Log.d("FirebaseDatabase exception", exception.localizedMessage.toString())
+            exception.localizedMessage?.let { Log.d("FirebaseDatabase exception", it) }
             val nullData: List<CartItem>? = null
             val error = Resource.Error(exception.localizedMessage, nullData)
             this@callbackFlow.trySend(Result.success(error))
@@ -163,8 +162,8 @@ class CartItemRepository @Inject constructor(
             try {
                 val database = firebaseRealTimeDatabase.reference
                 val cartItemsRef = database.child(CARTS).child(userId.toString())
-
                 cartItemsRef.removeValue()
+
                     .addOnSuccessListener {
                         val result = Resource.Success(true)
                         this@callbackFlow.trySend(Result.success(result))

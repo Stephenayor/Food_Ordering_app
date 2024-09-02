@@ -113,11 +113,9 @@ class OrdersRepository @Inject constructor(
                         val orders = snapshot.toObjects(Orders::class.java)
                         val result = Resource.Success(orders)
                         this@callbackFlow.trySend(Result.success(result))
-//                    trySend(Result.success(Resource.Success(orders))).isSuccess
                     } else {
                         val result = Resource.Success(emptyList<Orders>())
                         this@callbackFlow.trySend(Result.success(result))
-//                    trySend(Result.success(Resource.Success(emptyList()))).isSuccess
                     }
                 }
 
