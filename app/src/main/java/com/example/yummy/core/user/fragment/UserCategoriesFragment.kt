@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.yummy.R
 import com.example.yummy.databinding.FragmentUserCategoriesBinding
+import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
 
 
@@ -27,17 +28,18 @@ class UserCategoriesFragment : BaseFragment<FragmentUserCategoriesBinding>() {
         this.binding = binding
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_categories, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.breakfastLayout.setOnClickListener {
+            Tools.openComingSoonDialog(requireActivity())
+        }
+        binding.lunchLayout.setOnClickListener {
+            Tools.openComingSoonDialog(requireActivity())
+        }
+        binding.dinnerLayout.setOnClickListener {
+            Tools.openComingSoonDialog(requireActivity())
+        }
     }
 
     companion object {
