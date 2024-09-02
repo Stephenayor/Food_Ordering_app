@@ -112,10 +112,10 @@ class AddProductsRepository @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
-                Tools.showToast(context, "getting products from Firestore Failed")
+                Tools.showToast(context, "Getting Products from FireStore Failed")
                 val nullData: Product? = null
                 val error = Resource.Error(e.localizedMessage, nullData)
-                Log.d("errorMessage", e.localizedMessage.toString())
+                Log.d("errorMessage", e.localizedMessage?.toString() ?: "")
                 this@callbackFlow.trySend(Result.success(error))
             }
             awaitClose {}
