@@ -61,13 +61,12 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
                     bottomNavView.visibility = View.GONE
                 R.id.navigation_user_orders ->
                     bottomNavView.visibility = View.GONE
+                R.id.navigation_user_account ->
+                    bottomNavView.visibility = View.GONE
+                R.id.navigation_user_categories ->
+                    bottomNavView.visibility = View.GONE
                 else -> bottomNavView.visibility = View.VISIBLE
             }
-//            if (destination.id == R.id.productDetailsFragment) {
-//                bottomNavView.visibility = View.GONE
-//            } else {
-//                bottomNavView.visibility = View.VISIBLE
-//            }
         }
 
         bottomNavView.setupWithNavController(navController)

@@ -18,12 +18,14 @@ import com.example.yummy.databinding.FragmentCompleteOrdersBinding
 import com.example.yummy.utils.Resource
 import com.example.yummy.utils.Tools
 import com.example.yummy.utils.base.BaseFragment
+import com.example.yummy.utils.dialogs.NotificationSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
+class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>(),
+    NotificationSheetDialog.OnButtonsClickListener{
     private lateinit var binding: FragmentCompleteOrdersBinding
     private val completeFragmentArgs by navArgs<CompleteOrdersFragmentArgs>()
     private lateinit var toolbar: Toolbar
@@ -102,9 +104,15 @@ class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
 
             override fun onMinusButtonProductClick(product: CartItem, position: Int) {
                 itemPosition = position
-                val quantity = product.quantity.toInt()
-                product.quantity = (quantity - 1).toString()
-                completeOrderViewModel.updateProductsInCart(product)
+                if (product.quantity != "") {
+                    val quantity = product.quantity.toInt()
+                        product.quantity = (quantity - 1).toString()
+                    completeOrderViewModel.updateProductsInCart(product)
+                }else{
+                    val zero = 0
+                    product.quantity = zero.toString()
+                    completeOrderViewModel.updateProductsInCart(product)
+                }
             }
         })
     }
@@ -235,5 +243,13 @@ class CompleteOrdersFragment : BaseFragment<FragmentCompleteOrdersBinding>() {
             CompleteOrdersFragment().apply {
 
             }
+    }
+
+    override fun onNegativeClick() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPositiveClick() {
+        TODO("Not yet implemented")
     }
 }

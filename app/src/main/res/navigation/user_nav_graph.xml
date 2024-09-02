@@ -65,4 +65,12 @@
         android:id="@+id/navigation_user_orders"
         android:name="com.example.yummy.core.user.orders.UserOrderFragment"
         android:label="UserOrderFragment" />
+    <fragment
+        android:id="@+id/navigation_user_account"
+        android:name="com.example.yummy.core.user.fragment.UserProfileFragment"
+        android:label="UserProfileFragment" />
+    <fragment
+        android:id="@+id/navigation_user_categories"
+        android:name="com.example.yummy.core.user.fragment.UserCategoriesFragment"
+        android:label="UserCategoriesFragment" />
 </navigation>

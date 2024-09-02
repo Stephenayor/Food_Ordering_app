@@ -86,14 +86,21 @@ class CartItemRepository @Inject constructor(
 
                 // Create a map with the fields you want to update
                 val updates: HashMap<String, Any?> = if (cartItem.quantity.toInt() == 0){
+                    Log.d("1st hash", cartItem.quantity)
+                    cartItemsRef.removeValue()
                     hashMapOf(
-                        "$existingProductCartId/id" to null,
-                        "$existingProductCartId/quantity" to null,
-                        "$existingProductCartId/product" to null,
-                        "$existingProductCartId/creationDate" to null,
-                        "$existingProductCartId/userId" to null
+
+//                        "$existingProductCartId/id" to null,
+//                        "$existingProductCartId/quantity" to null,
+//                        "$existingProductCartId/product" to null,
+//                        "$existingProductCartId/creationDate" to null,
+//                        "$existingProductCartId/userId" to null,
+//                        "$existingProductCartId/stability" to null
+                        "$existingProductCartId" to null
+
                     )
                 }else{
+                    Log.d("2nd hash", cartItem.quantity)
                     hashMapOf(
                         "$existingProductCartId/quantity" to cartItem.quantity,
                         "$existingProductCartId/product" to cartItem.product,

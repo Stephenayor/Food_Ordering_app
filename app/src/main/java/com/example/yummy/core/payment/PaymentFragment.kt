@@ -177,7 +177,6 @@ class PaymentFragment : BaseFragment<FragmentPaymentBinding>() {
 
         //add text watcher
         binding.etCardNumber.addTextChangedListener(CreditCardTextFormatter())
-        binding.etCardNumber.addTextChangedListener(watcher)
         binding.etExpiry.addTextChangedListener(watcher)
         binding.etCvv.addTextChangedListener(watcher)
 

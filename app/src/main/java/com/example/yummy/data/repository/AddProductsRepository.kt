@@ -94,6 +94,7 @@ class AddProductsRepository @Inject constructor(
                 if (product != null) {
                     // Save the product in the room database and fetch the saved product
                     withContext(Dispatchers.IO) {
+                        productDao.clearAllProducts()
                         saveProductsInDB(listOf(product))
                         getProductsFromDB().collect { productsEntity ->
                             foodProducts = productsEntity.toProductList()
@@ -147,7 +148,6 @@ class AddProductsRepository @Inject constructor(
                     }
                 }
             } catch (e: Exception) {
-                Tools.showToast(context, "getting products from Firestore Failed")
                 val nullData: List<Product>? = null
                 val error = Resource.Error(e.localizedMessage, nullData)
                 Log.d("errorMessage", e.localizedMessage.toString())

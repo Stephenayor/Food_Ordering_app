@@ -59,6 +59,7 @@ class PaymentSuccessBottomSheet :  BottomSheetDialogFragment() {
         binding.btnContinue.setOnClickListener {
             UserActivity.start(requireContext())
         }
+        binding.btnContinue.isEnabled = true
         return binding.root
     }
 

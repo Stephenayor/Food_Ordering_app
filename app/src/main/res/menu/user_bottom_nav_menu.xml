@@ -7,7 +7,7 @@
         android:title="@string/home"
         />
     <item
-        android:id="@+id/navigation_categories"
+        android:id="@+id/navigation_user_categories"
         android:icon="@drawable/categorization"
         android:title="@string/categories" />
     <item

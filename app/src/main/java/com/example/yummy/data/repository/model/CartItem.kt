@@ -27,7 +27,7 @@ data class CartItem (
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        TODO("Not yet implemented")
+
     }
 
     companion object CREATOR : Parcelable.Creator<CartItem> {
